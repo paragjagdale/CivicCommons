@@ -5,6 +5,7 @@ class Contribution < ActiveRecord::Base
 
   # nested contributions are destroyed via callbacks
   acts_as_nested_set :exclude_unless => {:confirmed => true}, :dependent => :destroy
+  acts_as_revisionable
   profanity_filter :content, :method => 'hollow'
 
   ALL_TYPES = ["Answer","AttachedFile","Comment","EmbeddedSnippet","Link",
