@@ -1,6 +1,6 @@
 / if params[:preview] is set, then contribution was just submitted for preview, and this form is now the final.
 / otherwise, set this form to submit for preview.
-= form_for @contribution, :as => :contribution, :url => (@contribution.new_record? || @contribution.unconfirmed? ? "preview_node_contribution" : "update_node_contribution"), :remote => true, :html => {:multipart => (type == :attached_file ? true : false), 'data-preview' => true, 'data-type' => 'html'} do |f|
+= form_for @contribution, :as => :contribution, :url => (@contribution.new_record? || @contribution.unconfirmed? ? "preview_node_contribution" : conversation_contribution_path(@contribution.conversation, @contribution)), :remote => true, :html => {:multipart => (type == :attached_file ? true : false), 'data-preview' => true, 'data-type' => 'html'} do |f|
   = f.hidden_field(:conversation_id)
   = f.hidden_field(:parent_id)
   = f.hidden_field(:type, :value => type.to_s.camelcase)
