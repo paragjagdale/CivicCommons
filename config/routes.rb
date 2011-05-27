@@ -32,7 +32,7 @@ Civiccommons::Application.routes.draw do
   get   '/authentication/confirm_facebook_unlinking',  to: 'authentication#confirm_facebook_unlinking',      as: 'confirm_facebook_unlinking'
   get   '/authentication/before_facebook_unlinking',   to: 'authentication#before_facebook_unlinking',       as: 'before_facebook_unlinking'
   delete '/authentication/process_facebook_unlinking', to: 'authentication#process_facebook_unlinking',      as: 'process_facebook_unlinking'
-  
+
   #Contributions
   post '/contributions/create_confirmed_contribution', to: 'contributions#create_confirmed_contribution',    as: 'create_confirmed_contribution'
   get  '/tos/tos_contribution',                        to: 'tos#tos_contribution',                           as: 'tos_contribution'
@@ -52,18 +52,18 @@ Civiccommons::Application.routes.draw do
   post '/conversations/toggle_rating',                 to: 'conversations#toggle_rating',                    as: 'conversation_contribution_toggle_rating'
   post 'conversations/blog/:id',                       to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
   post 'conversations/radio/:id',                      to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
-  
+
   #Subscriptions
   post '/subscriptions/subscribe',                     to: 'subscriptions#subscribe'
   post '/subscriptions/unsubscribe',                   to: 'subscriptions#unsubscribe'
-  
+
   #UnsubscribeDigest
   get '/unsubscribe-me/:id',                           to: 'unsubscribe_digest#unsubscribe_me',              as: 'unsubscribe_confirmation'
   put '/unsubscribe-me/:id',                           to: 'unsubscribe_digest#remove_from_digest'
 
   #Community
   get '/community',                                    to: 'community#index',                                as: 'community'
-  
+
   #Content
   get '/podcast',                                      to: 'radioshow#podcast',                              as: 'podcast'
 
@@ -109,14 +109,20 @@ Civiccommons::Application.routes.draw do
 
 #Resource Declared Routes
   #Declare genericly-matched GET routes after Filters
+
   resources :user, only: [:show, :update, :edit] do
     delete "destroy_avatar", on: :member
   end
+
   resources :issues, only: [:index, :show] do
     post 'create_contribution', on: :member
     resources :pages, controller: :managed_issue_pages, only: [:show]
   end
-  resources :conversations, only: [:index, :show, :new, :create]
+
+  resources :conversations, only: [:index, :show, :new, :create] do
+    resources :contributions
+  end
+
   resources :regions, only: [:index, :show]
   resources :links, only: [:new, :create]
   resources :invites, only: [:new, :create]
