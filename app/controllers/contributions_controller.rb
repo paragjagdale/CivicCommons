@@ -1,7 +1,8 @@
 class ContributionsController < ApplicationController
   include ContributionsHelper
 
-  before_filter :load_conversation, only: [:edit, :update]
+  before_filter :load_conversation, only: [:edit, :update, :moderate]
+  before_filter :verify_admin, only: [:moderate]
 
   def destroy
     @contribution = Contribution.find(params[:id])
@@ -14,11 +15,10 @@ class ContributionsController < ApplicationController
     end
   end
 
-  def moderate_contribution
-    verify_admin
+  def moderate
     @contribution = Contribution.find(params[:id])
     @contribution.moderate_contribution
-    redirect_to conversation_path(@contribution.conversation)
+    redirect_to conversation_path(@conversation)
   end
 
   def create_confirmed_contribution
