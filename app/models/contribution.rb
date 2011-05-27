@@ -139,7 +139,7 @@ class Contribution < ActiveRecord::Base
       return false
     end
   end
-  
+
   def update_attributes_by_user(params, user)
     params = params.select{ |k,v| ['content', 'url', 'attachment'].include?(k.to_s) && !v.blank? }
     if self.editable_by?(user)
@@ -149,7 +149,7 @@ class Contribution < ActiveRecord::Base
       return false
     end
   end
-  
+
   def editable_by?(user)
     return false if user.nil?
     (user.admin? || (self.owner == user.id && self.created_at > 30.minutes.ago)) && self.confirmed && self.descendants_count == 0
@@ -173,12 +173,12 @@ class Contribution < ActiveRecord::Base
       ''
     end
   end
-  
+
   def override_confirmed=(value)
     @override_confirmed = value
     self.confirmed = true if value
   end
-  
+
   def contribution_type
     if self.you_tubeable?
       :video
