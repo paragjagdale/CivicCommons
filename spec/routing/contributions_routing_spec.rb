@@ -4,7 +4,7 @@ describe ContributionsController do
   describe "routing" do
 
     it "recognizes and generates #destroy" do
-      { delete: "/contributions/1" }.should route_to(controller: "contributions", action: "destroy", id: "1")
+      { delete: "conversations/1/contributions/1" }.should route_to(controller: "contributions", action: "destroy", conversation_id: "1", id: "1")
     end
 
     it "recognizes and generates #moderate" do
