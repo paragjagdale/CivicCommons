@@ -36,7 +36,6 @@ Civiccommons::Application.routes.draw do
   #Contributions
   post '/contributions/create_confirmed_contribution', to: 'contributions#create_confirmed_contribution',    as: 'create_confirmed_contribution'
   get  '/tos/tos_contribution',                        to: 'tos#tos_contribution',                           as: 'tos_contribution'
-  delete '/contributions/:id',                         to: 'contributions#destroy',                          as: 'contribution'
 
   #Conversations
   match '/conversations/preview_node_contribution',    to: 'conversations#preview_node_contribution'
@@ -117,7 +116,7 @@ Civiccommons::Application.routes.draw do
   end
 
   resources :conversations, only: [:index, :show, :new, :create] do
-    resources :contributions, only: [:edit, :update] do
+    resources :contributions, only: [:edit, :update, :destroy] do
       delete '/moderate', to: 'contributions#moderate', on: :member
     end
   end
