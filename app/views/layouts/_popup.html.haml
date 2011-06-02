@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title Civic Commons
+    = stylesheet_link_tag "screen", :media => "screen, projection"
+    = stylesheet_link_tag "ui-lightness/jquery-ui-1.8.2.custom", :media => "screen, projection"
+    :plain
+      <!--<![endif]-->
+    = yield :header
+
+  %body
+    = yield
