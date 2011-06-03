@@ -122,15 +122,15 @@ class Contribution < ActiveRecord::Base
   def suggestion?
     false
   end
-  
+
   def unconfirmed?
     !self.confirmed
   end
-  
+
   def confirm!
     self.update_attribute(:confirmed, true)
   end
-  
+
   def destroy_by_user(user)
     if self.editable_by?(user)
       self.destroy
