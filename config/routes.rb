@@ -121,6 +121,8 @@ Civiccommons::Application.routes.draw do
     end
   end
 
+  resources :contributions, only: [:destroy]
+
   resources :regions, only: [:index, :show]
   resources :links, only: [:new, :create]
   resources :invites, only: [:new, :create]

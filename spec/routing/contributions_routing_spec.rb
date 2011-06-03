@@ -23,5 +23,10 @@ describe ContributionsController do
       { put: "/conversations/1/contributions/1" }.should route_to(controller: "contributions", action: "update", conversation_id: "1", id: "1")
     end
 
+    it "recognizes and generates #destroy" do
+      { delete: "/contributions/1" }.should route_to(controller: "contributions", action: "destroy", id: "1")
+    end
+
   end
+
 end
