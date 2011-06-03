@@ -51,8 +51,8 @@ private
   def load_conversation
     if params.has_key?(:conversation_id)
       @conversation = Conversation.find(params[:conversation_id])
-    else
-      redirect_to conversations_path
+    elsif params.has_key?(:issue_id)
+      @issue = Issue.find(params[:issue_id])
     end
   end
 
