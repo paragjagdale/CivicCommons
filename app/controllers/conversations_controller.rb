@@ -40,7 +40,7 @@ class ConversationsController < ApplicationController
   def show
     @conversation = Conversation.includes(:issues).find(params[:id])
     @conversation.visit!((current_person.nil? ? nil : current_person.id))
-    @contributions = Contribution.includes(:ratings, :person).for_conversation(@conversation)
+    @contributions = Contribution.includes(:rating_groups, :person).for_conversation(@conversation)
     @ratings = RatingGroup.ratings_for_conversation_by_contribution_with_count(@conversation, current_person)
     # Build rating totals into contribution
     # @contributions.each do |c|
