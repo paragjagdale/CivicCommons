@@ -117,7 +117,8 @@ Civiccommons::Application.routes.draw do
 
   resources :conversations, only: [:index, :show, :new, :create] do
     resources :contributions, only: [:edit, :update, :destroy] do
-      delete '/moderate', to: 'contributions#moderate', on: :member
+      get '/moderate', to: 'contributions#moderate', on: :member
+      put '/moderate', to: 'contributions#moderated', on: :member
     end
   end
 

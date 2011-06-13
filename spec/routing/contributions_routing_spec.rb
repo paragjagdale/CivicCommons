@@ -8,7 +8,11 @@ describe ContributionsController do
     end
 
     it "recognizes and generates #moderate" do
-      { delete: "/conversations/1/contributions/1/moderate" }.should route_to(controller: "contributions", action: "moderate", conversation_id: "1", id: "1")
+      { get: "/conversations/1/contributions/1/moderate" }.should route_to(controller: "contributions", action: "moderate", conversation_id: "1", id: "1")
+    end
+
+    it "recognizes and generates #moderate" do
+      { put: "/conversations/1/contributions/1/moderate" }.should route_to(controller: "contributions", action: "moderated", conversation_id: "1", id: "1")
     end
 
     it "recognizes and generates #created_confirmed_contribution" do
