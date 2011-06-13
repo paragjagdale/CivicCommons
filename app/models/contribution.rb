@@ -7,6 +7,7 @@ class Contribution < ActiveRecord::Base
   acts_as_nested_set :exclude_unless => {:confirmed => true}, :dependent => :destroy
   acts_as_revisionable
   profanity_filter :content, :method => 'hollow'
+  attr_accessor :moderation_reason
 
   ALL_TYPES = ["Answer","AttachedFile","Comment","EmbeddedSnippet","Link",
                "Question","SuggestedAction", "EmbedlyContribution"]

@@ -9,7 +9,7 @@
         %a{:name=>"#post#{contribution.id}"}
         .edit-contribution
           - if current_person && current_person.admin?
-            = link_to "Moderate", moderate_conversation_contribution_path(contribution.conversation, contribution), :confirm => "Whoa there Tiger!  This will remove the contribution and all the nested responses.  Are you sure you want to do this?", :class => 'moderate', :method => 'delete'
+            = link_to "Moderate", moderate_conversation_contribution_path(contribution.conversation, contribution),  :class => 'moderate'
             = link_to("Delete", conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :delete, :confirm => "Are you sure you want to delete this response? This cannot be undone.", :class => "delete-conversation-action", 'data-target' => "#show-contribution-#{contribution.id}")
             - if contribution.descendants_count == 0 && contribution.rating_groups.empty?
               = link_to("Edit", edit_conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :get, :class => "edit-conversation-action", :id => "edit-#{contribution.id}", 'data-target' => "#show-contribution-#{contribution.id}")
