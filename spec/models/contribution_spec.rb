@@ -62,6 +62,8 @@ describe Contribution do
         @old_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
       end
 
+      it "disallows deletion by the user if anyone has rated or replied to the contribution"
+
       it "allows editing by the user within 30 minutes of creation" do
         @new_contribution.should_receive(:update)
         @new_contribution.update_attributes_by_user(@new_params, @person)
@@ -72,6 +74,8 @@ describe Contribution do
         @old_contribution.update_attributes_by_user(@new_params, @person)
         @old_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
       end
+
+      it "disallows editing by the user if anyone has rated or replied to the contribution"
 
       it "only updates updateable parameters" do
         @non_updateable_params = {:parent_id => @new_contribution.id + 1}

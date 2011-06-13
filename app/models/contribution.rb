@@ -151,9 +151,12 @@ class Contribution < ActiveRecord::Base
     end
   end
 
-  def editable_by?(user)
-    return false if user.nil?
-    (user.admin? || (self.owner == user.id && self.created_at > 30.minutes.ago)) && self.confirmed && self.descendants_count == 0
+  def editable_by?(user = nil)
+    if user && (user.admin? || owner_editable?(user))
+      true
+    else
+      false
+    end
   end
 
   def moderate_contribution
@@ -230,4 +233,13 @@ class Contribution < ActiveRecord::Base
   def set_person_from_item
     self.person = item.person
   end
+
+  def owner_editable?(user)
+    if self.owner == user.id && self.created_at > 30.minutes.ago && self.descendants_count == 0 && self.rating_groups.empty?
+      true
+    else
+      false
+    end
+  end
+
 end
