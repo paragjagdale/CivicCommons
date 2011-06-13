@@ -14,6 +14,7 @@ class Contribution < ActiveRecord::Base
   belongs_to :person, :foreign_key => "owner"
   belongs_to :conversation
   belongs_to :issue
+  has_many   :rating_groups
 
   validates_with ContributionValidator
   validates :item, :presence=>true
