@@ -20,6 +20,9 @@ class ContributionsController < ApplicationController
   end
 
   def moderated
+    @contribution = Contribution.find(params[:id])
+    @contribution.moderated_content(params[:contribution][:moderation_reason], current_person)
+    redirect_to conversation_path(@conversation)
   end
 
   def create_confirmed_contribution
