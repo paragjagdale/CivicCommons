@@ -21,7 +21,7 @@ class ContributionsController < ApplicationController
 
   def moderated
     @contribution = Contribution.find(params[:id])
-    @contribution.moderated_content(params[:contribution][:moderation_reason], current_person)
+    @contribution.moderate_content(params, current_person)
     redirect_to conversation_path(@conversation)
   end
 

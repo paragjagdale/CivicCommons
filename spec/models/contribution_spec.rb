@@ -149,6 +149,28 @@ describe Contribution do
 
   end
 
+  describe "moderating content" do
+
+    it "sets the reason for moderation in the content" do
+      reason = { :comment => { :moderation_reason => "violates tos" } }
+      person = Factory.create(:admin_person)
+      contribution = Factory.create(:comment)
+      contribution.moderate_content(reason, person)
+      contribution.content.should match(reason[:comment][:moderation_reason])
+    end
+
+    it "sets the contribution type to Comment"
+
+    it "clears attachments"
+
+    it "clears embedly_content"
+
+    it "clears embedly_code"
+
+    it "clears title and description"
+
+  end
+
   describe "when updating AttachedFile" do
 
     before(:each) do
@@ -412,19 +434,6 @@ describe Contribution do
                                          :content => "Foo Bar",
                                          :type => "Comment"}, nil)
       contribution.valid?.should be_false
-    end
-
-  end
-
-  describe "Contribution#moderate_contribution" do
-
-    it "Deletes the contribution and all nested contributions returning true" do
-      contribution = Contribution.new(content: "Hello There", type: "Comment", owner: 1)
-      first_nested_contribution = Contribution.new(content: "You are wrong", type: "Comment", owner: 2, parent: contribution)
-      second_nested_contribution = Contribution.new(content: "Both are wrong", type: "Comment", owner: 3, parent: contribution)
-
-      contribution.moderate_contribution.should == true
-      contribution.descendants.length.should == 0
     end
 
   end

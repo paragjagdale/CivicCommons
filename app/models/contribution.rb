@@ -160,11 +160,19 @@ class Contribution < ActiveRecord::Base
     end
   end
 
-  def moderate_contribution
-    self.destroy_descendants
+  def moderate_content(params, moderated_by)
+   contribution_type = self.type.underscore.to_sym
+   reason = params[contribution_type][:moderation_reason]
+   self.becomes(Comment)
+   self.content = "#{moderated_by.name} deleted this post at #{Time.now} for the following reason: #{reason}"
+   self.clear_attributes
+   self.save
+  end
 
-    self.destroy
-    true
+  def clear_attributes
+    [:url=, :embedly_type=, :embedly_code=, :title=, :description=].each do |attribute|
+      self.send(attribute, nil)
+    end
   end
 
   def attachment_url
