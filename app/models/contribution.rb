@@ -163,13 +163,16 @@ class Contribution < ActiveRecord::Base
   def moderate_content(params, moderated_by)
    contribution_type = self.type.underscore.to_sym
    reason = params[contribution_type][:moderation_reason]
-   self.becomes(Comment)
    self.content = "#{moderated_by.name} deleted this post at #{Time.now} for the following reason: #{reason}"
    self.clear_attributes
-   self.save
+   self.type = "Comment"
+   self.save(false)
   end
 
   def clear_attributes
+    if respond_to?(:attachment)
+      destroy_attached_files
+    end
     [:url=, :embedly_type=, :embedly_code=, :title=, :description=].each do |attribute|
       self.send(attribute, nil)
     end

@@ -151,17 +151,31 @@ describe Contribution do
 
   describe "moderating content" do
 
+    before :each do
+      @reason = { :moderation_reason => "violates tos" }
+      @person = Factory.create(:admin_person)
+    end
+
     it "sets the reason for moderation in the content" do
-      reason = { :comment => { :moderation_reason => "violates tos" } }
-      person = Factory.create(:admin_person)
       contribution = Factory.create(:comment)
-      contribution.moderate_content(reason, person)
+      reason = { :comment => @reason }
+      contribution.moderate_content(reason, @person).should be_true
       contribution.content.should match(reason[:comment][:moderation_reason])
     end
 
-    it "sets the contribution type to Comment"
+    it "sets the contribution type to Comment" do
+      contribution = Factory.create(:question)
+      reason = { :question => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.type.should == 'Comment'
+    end
 
-    it "clears attachments"
+    it "clears attachments" do
+      contribution = Factory.create(:attached_file)
+      reason = { :attached_file => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.attachment.should_not exist
+    end
 
     it "clears embedly_content"
 
