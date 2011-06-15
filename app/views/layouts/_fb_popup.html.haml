@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %title Civic Commons
+    = stylesheet_link_tag "screen", :media => "screen, projection"
+    = stylesheet_link_tag "ui-lightness/jquery-ui-1.8.2.custom", :media => "screen, projection"
+    :plain
+      <!--<![endif]-->
+    = yield :header
+    :css
+      body#facebook-pop {margin: 0; padding: 0;}
+      #facebook-pop h1 {font-family: "lucida grande", tahoma, verdana, arial, sans-serif; font-size: 100%; color: #FFF; background: #6D84B4; padding: 5px 10px; margin: 0 0 10px;}
+      #facebook-pop p {font-family: "lucida grande", tahoma, verdana, arial, sans-serif; font-size: 80%; color: #000; margin-left: 15px;}
+
+  %body#facebook-pop
+    = yield

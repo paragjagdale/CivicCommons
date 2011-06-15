@@ -115,7 +115,7 @@ private
   end  
   
   def render_popup(text,script = nil)
-    render :partial => '/authentication/fb_interstitial_message', :layout => 'popup', :locals => {:text => text, :script => script}
+    render :partial => '/authentication/fb_interstitial_message', :layout => 'fb_popup', :locals => {:text => text, :script => script}
   end
   
 end
