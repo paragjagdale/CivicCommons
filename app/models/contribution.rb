@@ -166,7 +166,7 @@ class Contribution < ActiveRecord::Base
    self.content = "#{moderated_by.name} deleted this post at #{Time.now} for the following reason: #{reason}"
    self.clear_attributes
    self.type = "Comment"
-   self.save(false)
+   self.save(validate: false)
   end
 
   def clear_attributes
