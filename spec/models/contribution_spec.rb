@@ -177,11 +177,21 @@ describe Contribution do
       contribution.attachment.should_not exist
     end
 
-    it "clears embedly_content"
+    it "clears embedly_content" do
+      contribution = Factory.create(:embedly_contribution)
+      reason = { :embedly_contribution => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.embedly_code.should be_nil
+      contribution.embedly_type.should be_nil
+    end
 
-    it "clears embedly_code"
-
-    it "clears title and description"
+    it "clears title and description" do
+      contribution = Factory.create(:embedly_contribution)
+      reason = { :embedly_contribution => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.title.should be_nil
+      contribution.description.should be_nil
+    end
 
   end
 
