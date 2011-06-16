@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Registrations::OmniauthCallbacksController, "handle facebook authentication callback" do
   
   def response_should_js_redirect_to(path)
-    response.should contain "window.opener.location = '#{path}'"
+    assigns(:script).should contain "window.opener.location = '#{path}'"
   end
   
   def response_should_js_open_colorbox(path)
-    response.should contain "window.opener.$.colorbox({href:'#{path}'"
+    assigns(:script).should contain "window.opener.$.colorbox({href:'#{path}'"
   end
   
   def stub_successful_auth
@@ -148,19 +148,22 @@ describe Registrations::OmniauthCallbacksController, "handle facebook authentica
           stub_successful_auth
           @controller.stub(:signed_in?).and_return(false)
           Authentication.should_receive(:find_from_auth_hash).and_return(nil)
-          Person.stub(:create_from_auth_hash).and_return(Factory.create(:registered_user))          
-          get :facebook
+          Person.stub(:create_from_auth_hash).and_return(Factory.create(:registered_user))                    
         end
 
         it "should redirect to the previous page" do
+
+          get :facebook
           response_should_js_redirect_to(conversations_path)
         end
 
         it "should display successful login using facebook" do  
+          get :facebook
           flash[:notice].should == 'Successfully authorized from Facebook account.'
         end
         
         it "should set the flag to display the successful confirmation modal" do
+          get :facebook
           flash[:successful_fb_registration_modal].should be_true 
         end
       end
@@ -174,14 +177,17 @@ describe Registrations::OmniauthCallbacksController, "handle facebook authentica
           @mock_person.stub(:valid?).and_return(false)
           @mock_person.stub(:errors).and_return({:email => "has already been taken"})
           Person.stub(:create_from_auth_hash).and_return(@mock_person)
-          get :facebook
+          @controller.stub(:render)
+          
         end
 
         it "should open a colorbox that tells user to login using facebook instead" do
+          get :facebook
           response_should_js_open_colorbox(registering_email_taken_path)
         end
         
         it "should NOT set the flag to display the successful confirmation modal" do
+          get :facebook
           flash[:successful_fb_registration_modal].should_not be_true 
         end
       end
@@ -194,15 +200,17 @@ describe Registrations::OmniauthCallbacksController, "handle facebook authentica
           @mock_person = mock_person
           @mock_person.stub(:valid?).and_return(false)
           Person.stub(:create_from_auth_hash).and_return(@mock_person)
-          get :facebook
+          @controller.stub(:render)
         end
         
         it "should redirect to back" do
-          response_should_js_redirect_to(conversations_path)
+          @controller.stub(:render_js_redirect_to).with("/conversations", anything)
+          get :facebook
         end
         
         it "should display the message 'Something went wrong, your account cannot be created'" do
-          response.should contain 'Something went wrong, your account cannot be created'
+          @controller.should_receive(:render_popup).with('Something went wrong, your account cannot be created', anything)
+          get :facebook
         end
       end
     end
@@ -215,8 +223,9 @@ describe Registrations::OmniauthCallbacksController, "handle facebook authentica
     end
     it "should display the text of the failure" do
       stub_failed_auth
+      @controller.should_receive(:render_popup).with("error message here")
+      @controller.stub(:render)
       get :failure
-      response.should contain 'error message here'
     end
   end
 end

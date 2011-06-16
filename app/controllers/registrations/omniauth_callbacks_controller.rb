@@ -93,25 +93,25 @@ private
   end
   
   def render_js_colorbox(options={})
-    text = options.delete(:text) || 'Redirecting back to CivicCommons....'
-    path = options.delete(:path)
-    script = "if(window.opener) {
-        window.opener.$.colorbox({href:'#{path}',opacity:0.5, onComplete: function(){
+    @text = options.delete(:text) || 'Redirecting back to CivicCommons....'
+    @path = options.delete(:path)
+    @script = "if(window.opener) {
+        window.opener.$.colorbox({href:'#{@path}',opacity:0.5, onComplete: function(){
           window.close();
         }});
         }"
-    render_popup(text, script) 
+    render_popup(@text, @script) 
   end
   
   def render_js_redirect_to(path = '', options={})
-    text = options.delete(:text) || 'Redirecting back to CivicCommons....'
-    script = "if(window.opener) {
+    @text = options.delete(:text) || 'Redirecting back to CivicCommons....'
+    @script = "if(window.opener) {
           window.opener.onunload = function(){
               window.close();
           };
           window.opener.location = '#{path}';
           }"
-   render_popup(text, script) 
+   render_popup(@text, @script) 
   end  
   
   def render_popup(text,script = nil)
