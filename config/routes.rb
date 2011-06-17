@@ -35,7 +35,6 @@ Civiccommons::Application.routes.draw do
 
   #Contributions
   post '/contributions/create_confirmed_contribution', to: 'contributions#create_confirmed_contribution',    as: 'create_confirmed_contribution'
-  get  '/tos/tos_contribution',                        to: 'tos#tos_contribution',                           as: 'tos_contribution'
 
   #Conversations
   match '/conversations/preview_node_contribution',    to: 'conversations#preview_node_contribution'
@@ -46,12 +45,16 @@ Civiccommons::Application.routes.draw do
   get '/conversations/responsibilities',               to: 'conversations#responsibilities',                 as: 'conversation_responsibilities'
   get '/conversations/rss',                            to: 'conversations#rss',                              as: 'conversation_rss'
   post '/conversations/toggle_rating',                 to: 'conversations#toggle_rating',                    as: 'conversation_contribution_toggle_rating'
-  post 'conversations/blog/:id',                       to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
-  post 'conversations/radio/:id',                      to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
+  post '/conversations/blog/:id',                      to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
+  post '/conversations/radio/:id',                     to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
 
   #Subscriptions
   post '/subscriptions/subscribe',                     to: 'subscriptions#subscribe'
   post '/subscriptions/unsubscribe',                   to: 'subscriptions#unsubscribe'
+
+  #ToS
+  get  '/tos/:contribution_id',                        to: 'tos#new',                                        as: 'new_tos'
+  post '/tos/:contribution_id',                        to: 'tos#create',                                     as: 'tos'
 
   #UnsubscribeDigest
   get '/unsubscribe-me/:id',                           to: 'unsubscribe_digest#unsubscribe_me',              as: 'unsubscribe_confirmation'
@@ -127,7 +130,6 @@ Civiccommons::Application.routes.draw do
   resources :regions, only: [:index, :show]
   resources :links, only: [:new, :create]
   resources :invites, only: [:new, :create]
-  resources :tos, only: [:new, :create]
   resources :pages, only: [:show]
   resources :blog, only: [:index, :show]
   resources :content, only: [:index, :show]
