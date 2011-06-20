@@ -733,7 +733,7 @@ margin-bottom: .2em;
 text-transform: uppercase;
 }
 div#ajax-login-container {padding: 20px;}
-div#ajax-login-container p#facebook {padding: 0px 0px 0px 160px;}
+div#ajax-login-container p#facebook {padding: 0px 0px 0px 160px; margin-top: -25px;}
 .important a {font-weight: bold;}
 .build-commons {
 background: url(/images/build_commons.png) no-repeat 0 0;
