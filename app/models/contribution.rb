@@ -163,7 +163,7 @@ class Contribution < ActiveRecord::Base
   def moderate_content(params, moderated_by)
    contribution_type = self.type.underscore.to_sym
    reason = params[contribution_type][:moderation_reason]
-   self.content = "#{moderated_by.name} deleted this post on #{Time.now.strftime('%B %d, %Y')} for the following reason: #{reason}"
+   self.content = "<b><i>Contribution removed by #{moderated_by.name} on #{Time.now.strftime('%B %d, %Y')}, for the following reason: #{reason}</i></b>"
    self.clear_attributes
    self.type = "Comment"
    self.save(validate: false)
