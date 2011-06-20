@@ -212,22 +212,6 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
   add_index "managed_issue_pages", ["cached_slug"], :name => "index_managed_issue_pages_on_cached_slug", :unique => true
   add_index "managed_issue_pages", ["issue_id"], :name => "index_managed_issue_pages_on_issue_id"
 
-  create_table "organizations", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.text     "address"
-    t.text     "city"
-    t.text     "state"
-    t.string   "zip_code"
-    t.text     "bio"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "people", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
