@@ -2,6 +2,7 @@
   <div class="content-container">
     <h1>Issues</h1>
     <div class="main-content">
+      <% svc = ParticipationService.new %>
       <% @issues.each do |issue| %>
         <div class="issue-container">
           <div class="issue-details">
@@ -10,7 +11,6 @@
             <p><%= raw(truncate(issue.summary, length: 255)) %></p>
           </div>
           <div class="issue-meta">
-            <% svc = ParticipationService.new %>
             <p class="issue-res"><%= pluralize(issue.contributions.size, "Resource") %></p>
             <p class="issue-contrib"><%= pluralize(svc.participants_by_issue(issue.id), "Participant") %></p>
             <p class="issue-conv"><%= pluralize(svc.conversations_by_issue(issue.id), "Conversation") %></p>
