@@ -31,7 +31,7 @@ describe Admin::IssuesController do
   end
 
   it 'recognizes and generates #update_order' do
-    { put: 'admin/issues/update_order' }.should route_to(controller: 'admin/issues', action: 'update_order')
+    { post: 'admin/issues/update_order' }.should route_to(controller: 'admin/issues', action: 'update_order')
   end
 
 end
