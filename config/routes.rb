@@ -162,11 +162,4 @@ Civiccommons::Application.routes.draw do
     resources :user_registrations, only: [:new, :create]
   end
 
-  namespace "api" do
-    get '/:id/conversations',                              to: 'conversations#index',  format: :json
-    get '/:id/issues',                                     to: 'issues#index',         format: :json
-    get '/:id/contributions',                              to: 'contributions#index',  format: :json
-    get '/:id/subscriptions',                              to: 'subscriptions#index',  format: :json
-  end
-
 end

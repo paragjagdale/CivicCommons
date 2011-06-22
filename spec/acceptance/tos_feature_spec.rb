@@ -30,10 +30,6 @@ feature "Report Terms of Service Violation", %q{
     ConversationsPage.new(page)
   end
 
-  let :api_page do
-    ApiPage.new(page)
-  end
-
   background do
     # Given the registered user is logged in
     LoginPage.new(page).sign_in(user)
