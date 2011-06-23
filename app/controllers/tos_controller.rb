@@ -8,7 +8,7 @@ class TosController < ApplicationController
       if request.xhr?
         format.html { render :partial => 'tos_contribution_form', :layout => false }
       else
-        format.html
+        format.html { render :partial => 'tos_contribution_form'}
       end
     end
   end
