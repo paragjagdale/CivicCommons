@@ -20,7 +20,7 @@ class EmbedlyService
 
   def fetch(url, opts = {})
     clear_state
-    opts[:url] = url
+    opts[:url] = url.strip
     opts[:wmode] = 'opaque'
     objs = @embedly.objectify(opts)
     @properties = objs[0].marshal_dump
