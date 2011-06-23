@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110607183415) do
+ActiveRecord::Schema.define(:version => 20110623182217) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "official",                                :default => false
+    t.boolean  "official",                                      :default => false
     t.integer  "conversation_id"
     t.integer  "parent_id"
     t.integer  "issue_id"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.string   "type",                                    :default => "Contribution"
+    t.string   "type",                                          :default => "Contribution"
     t.integer  "total_visits"
     t.integer  "recent_visits"
     t.integer  "total_rating"
@@ -105,9 +105,9 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
     t.string   "title"
     t.text     "description"
     t.string   "embed_target",            :limit => 1000
-    t.boolean  "confirmed",                               :default => true
+    t.boolean  "confirmed",                                     :default => true
     t.boolean  "notify"
-    t.text     "embedly_code"
+    t.text     "embedly_code",            :limit => 2147483647
     t.string   "embedly_type"
   end
 
@@ -211,6 +211,22 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
 
   add_index "managed_issue_pages", ["cached_slug"], :name => "index_managed_issue_pages_on_cached_slug", :unique => true
   add_index "managed_issue_pages", ["issue_id"], :name => "index_managed_issue_pages_on_issue_id"
+
+  create_table "organizations", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.text     "address"
+    t.text     "city"
+    t.text     "state"
+    t.string   "zip_code"
+    t.text     "bio"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "people", :force => true do |t|
     t.string   "first_name"
@@ -330,7 +346,7 @@ ActiveRecord::Schema.define(:version => 20110607183415) do
     t.integer  "conversation_id"
     t.integer  "issue_id"
     t.integer  "person_id"
-    t.text     "activity_cache"
+    t.text     "activity_cache",  :limit => 2147483647
   end
 
   add_index "top_items", ["conversation_id"], :name => "conversations_index"
