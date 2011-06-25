@@ -502,7 +502,7 @@ padding: 8px 12px;
 text-decoration: none;
 }
 .pagination span {color: #999;}
-.pagination .previous_page {
+.pagination .prev_page {
 border-left: 1px solid #ccc;
 -moz-border-radius: 4px 0 0 4px;
 -webkit-border-radius: 4px 0 0 4px;
