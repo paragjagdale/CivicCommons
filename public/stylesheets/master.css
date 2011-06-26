@@ -415,6 +415,53 @@ padding: 6px 0;
 .data-table a {text-decoration: none;}
 
 
+/*- HOMEPAGE STYLES
+----------------------------------------------------------------------*/
+
+.t-grid {
+}
+.t-col {
+float: left;
+margin-right: 20px;
+}
+.t-img {
+margin-bottom: 20px;
+position: relative;
+}
+.t-img img {
+display: block;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+-o-border-radius: 4px;
+border-radius: 4px;
+}
+.t-col.four {margin-right: 0;}
+.t-col.one, .t-col.four {width: 220px;}
+.t-col.two {width: 140px;}
+.t-col.three {width: 300px;}
+.t-col.three .sm.one, .t-col.three .sm.two {width: 140px;}
+.t-col.three .sm.one {float: left;}
+.t-col.three .sm.two {float: right;}
+.t-img p {
+background: rgba(0,0,0,.4);
+bottom: 0;
+color: #fff;
+font-weight: bold;
+margin-bottom: 0;
+padding: 3px 6px;
+position: absolute;
+-moz-border-radius: 0 0 4px 4px;
+-webkit-border-radius: 0 0 4px 4px;
+-o-border-radius: 0 0 4px 4px;
+border-radius: 0 0 4px 4px;
+}
+.t-img a:hover p {
+background: rgba(0,0,0,.6);
+}
+.t-img.sm p {font-size: 80%;}
+.t-img.lrg p {font-size: 120%;}
+
+
 /*- ISSUE STYLES
 ----------------------------------------------------------------------*/
 
@@ -1649,7 +1696,7 @@ div.blog img.callout {float: left; width: 32px; height: 32px; padding-right: 5px
 /*- SELF CLEARING FLOATS
 ----------------------------------------------------------------------*/
 
-#wrapper:after, #header:after, .feature:after, div.tab-strip ul:after, div.tab-area:after, #nav:after, #header-wrapper:after, .section:after, .content-container:after, .photobank:after, div.three-col:after, div.three-col-sm:after, .form-block:after, .offset-1:after, .offset-2:after, form:after, .convo-utility:after, ul.social-media:after, div.two-col:after, div.two-col-sm:after, .conversations:after, div.convo-popup:after, .pagination p:after, .convo-create:after, p.fb-cnct-links:after, div.four-col:after {
+#wrapper:after, #header:after, .feature:after, div.tab-strip ul:after, div.tab-area:after, #nav:after, #header-wrapper:after, .section:after, .content-container:after, .photobank:after, div.three-col:after, div.three-col-sm:after, .form-block:after, .offset-1:after, .offset-2:after, form:after, .convo-utility:after, ul.social-media:after, div.two-col:after, div.two-col-sm:after, .conversations:after, div.convo-popup:after, .pagination p:after, .convo-create:after, p.fb-cnct-links:after, div.four-col:after, .t-grid:after {
 content: ".";
 display: block;
 height: 0;
@@ -1680,10 +1727,10 @@ padding: 6px 0;
 
 /*- IE6 ----------*/
 
-* html #wrapper, * html #header, * html .feature, * html div.tab-strip ul, * html div.tab-area, * html #nav, * html #header-wrapper, * html .section, * html .content-container, * html .photobank, * html div.three-col, * html div.three-col-sm, * html .form-block, * html .offset-1, * html .offset-2, * html form, * html .convo-utility, * html ul.social-media, * html div.two-col, * html div.two-col-sm, * html .conversations, * html div.convo-popup, * html .pagination p, * html #header-utility, * html .convo-create, * html p.fb-cnct-links, * html div.four-col {zoom: 1;}
+* html #wrapper, * html #header, * html .feature, * html div.tab-strip ul, * html div.tab-area, * html #nav, * html #header-wrapper, * html .section, * html .content-container, * html .photobank, * html div.three-col, * html div.three-col-sm, * html .form-block, * html .offset-1, * html .offset-2, * html form, * html .convo-utility, * html ul.social-media, * html div.two-col, * html div.two-col-sm, * html .conversations, * html div.convo-popup, * html .pagination p, * html #header-utility, * html .convo-create, * html p.fb-cnct-links, * html div.four-col, * html .t-grid {zoom: 1;}
 * html .group {zoom: 1;}
 
 /*- IE7 ----------*/
 
-*:first-child+html #wrapper, *:first-child+html #header, *:first-child+html .feature, *:first-child+html div.tab-strip ul, *:first-child+html div.tab-area, *:first-child+html #nav, #header-wrapper, *:first-child+html .section, *:first-child+html .content-container, *:first-child+html .photobank, *:first-child+html div.three-col, *:first-child+html div.three-col-sm, *:first-child+html .form-block, *:first-child+html .offset-1, *:first-child+html .offset-2, *:first-child+html form, *:first-child+html .convo-utility, *:first-child+html ul.social-media, *:first-child+html div.two-col, *:first-child+html div.two-col-sm, *:first-child+html .conversations, *:first-child+html div.convo-popup, *:first-child+html .pagination p, *:first-child+html #header-utility, *:first-child+html .convo-create, *:first-child+html p.fb-cnct-links, *:first-child+html div.four-col {zoom: 1;}
+*:first-child+html #wrapper, *:first-child+html #header, *:first-child+html .feature, *:first-child+html div.tab-strip ul, *:first-child+html div.tab-area, *:first-child+html #nav, #header-wrapper, *:first-child+html .section, *:first-child+html .content-container, *:first-child+html .photobank, *:first-child+html div.three-col, *:first-child+html div.three-col-sm, *:first-child+html .form-block, *:first-child+html .offset-1, *:first-child+html .offset-2, *:first-child+html form, *:first-child+html .convo-utility, *:first-child+html ul.social-media, *:first-child+html div.two-col, *:first-child+html div.two-col-sm, *:first-child+html .conversations, *:first-child+html div.convo-popup, *:first-child+html .pagination p, *:first-child+html #header-utility, *:first-child+html .convo-create, *:first-child+html p.fb-cnct-links, *:first-child+html div.four-col, *:first-child+html .t-grid {zoom: 1;}
 *:first-child+html .group {zoom: 1;}
