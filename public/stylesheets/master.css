@@ -418,8 +418,6 @@ padding: 6px 0;
 /*- HOMEPAGE STYLES
 ----------------------------------------------------------------------*/
 
-.t-grid {
-}
 .t-col {
 float: left;
 margin-right: 20px;
@@ -442,22 +440,27 @@ border-radius: 4px;
 .t-col.three .sm.one, .t-col.three .sm.two {width: 140px;}
 .t-col.three .sm.one {float: left;}
 .t-col.three .sm.two {float: right;}
-.t-img p {
+.t-img div {
 background: rgba(0,0,0,.4);
 bottom: 0;
-color: #fff;
-font-weight: bold;
-margin-bottom: 0;
-padding: 3px 6px;
 position: absolute;
+width: 100%;
 -moz-border-radius: 0 0 4px 4px;
 -webkit-border-radius: 0 0 4px 4px;
 -o-border-radius: 0 0 4px 4px;
 border-radius: 0 0 4px 4px;
 }
-.t-img a:hover p {
-background: rgba(0,0,0,.6);
+.t-img p {
+color: #fff;
+font-weight: bold;
+margin-bottom: 0;
+padding: 3px 6px;
+text-decoration: none;
 }
+.t-img a {text-decoration: none;}
+.t-img a:hover div {background: rgba(0,0,0,.6);}
+.no-rgba .t-img p {background: url(/images/t_grid_bg.png) repeat;}
+.no-rgba .t-img a:hover div {background: url(/images/t_grid_bg_hover.png) repeat;}
 .t-img.sm p {font-size: 80%;}
 .t-img.lrg p {font-size: 120%;}
 
