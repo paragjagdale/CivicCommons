@@ -49,7 +49,7 @@ class Conversation < ActiveRecord::Base
   has_friendly_id :title, :use_slug => true, :strip_non_ascii => true
 
   scope :latest_updated, :order => 'updated_at DESC'
-  scope :latest_created, :order => 'created_at DESC'
+  scope :latest_created, where(:exclude_from_most_recent => false).order('created_at DESC')
 
   def self.available_filters
     {
