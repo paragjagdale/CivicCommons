@@ -20,3 +20,6 @@ config/people_aggregator.yml
 *.*~
 *~
 .idea
+solr/data
+log
+sunspot-solr.pid

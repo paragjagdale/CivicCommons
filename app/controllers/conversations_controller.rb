@@ -10,6 +10,12 @@ class ConversationsController < ApplicationController
     :create_from_radioshow,
   ]
 
+  def search
+    @search = Conversation.solr_search do
+      keywords(params[:q])
+    end
+  end
+
   # GET /conversations
   def index
     @active = Conversation.includes(:participants).most_active.limit(3)

@@ -38,6 +38,7 @@ Civiccommons::Application.routes.draw do
 
   #Conversations
   match '/conversations/preview_node_contribution',    to: 'conversations#preview_node_contribution'
+#  match '/conversations/search',                       to: 'conversations#search'
   get '/conversations/node_conversation',              to: 'conversations#node_conversation'
   get '/conversations/new_node_contribution',          to: 'conversations#new_node_contribution'
   get '/conversations/node_permalink/:id',             to: 'conversations#node_permalink'
@@ -47,6 +48,9 @@ Civiccommons::Application.routes.draw do
   post '/conversations/toggle_rating',                 to: 'conversations#toggle_rating',                    as: 'conversation_contribution_toggle_rating'
   post '/conversations/blog/:id',                      to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
   post '/conversations/radio/:id',                     to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
+
+  #Search
+  match '/search/results',                             to: 'search#results'
 
   #Subscriptions
   post '/subscriptions/subscribe',                     to: 'subscriptions#subscribe'
