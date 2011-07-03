@@ -83,6 +83,10 @@
               .offset-2
                 = render :partial => 'layouts/single_column'
           .important
+        #search
+          - form_for :search, :url => { :controller => 'search', :action => 'results'}, :html => {:method => "get"} do |f|
+            %input.textbox{:name=>'q'}
+            = f.submit :value => "Search", :class => 'submit'
     = yield :main_body
     #footer.footer
       #footer-inner

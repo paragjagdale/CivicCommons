@@ -4,6 +4,11 @@ class Conversation < ActiveRecord::Base
   include Regionable
   include GeometryForStyle
 
+  searchable do
+    text :title, :default_boost => 2
+    text :summary, :stored => true
+  end
+
   has_many :contributions
   has_many :confirmed_contributions, :class_name => 'Contribution',
            :conditions => ['confirmed = ?', true]
