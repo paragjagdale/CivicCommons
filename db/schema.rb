@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110623182217) do
+ActiveRecord::Schema.define(:version => 20110629135637) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(:version => 20110623182217) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.string   "zip_code"
-    t.integer  "total_visits",            :default => 0
-    t.integer  "recent_visits",           :default => 0
+    t.integer  "total_visits",             :default => 0
+    t.integer  "recent_visits",            :default => 0
     t.datetime "last_visit_date"
     t.integer  "total_rating"
     t.integer  "recent_rating"
@@ -134,10 +134,11 @@ ActiveRecord::Schema.define(:version => 20110623182217) do
     t.integer  "audio_clip_file_size"
     t.datetime "audio_clip_updated_at"
     t.integer  "owner"
-    t.boolean  "staff_pick",              :default => false, :null => false
+    t.boolean  "staff_pick",               :default => false, :null => false
     t.integer  "position"
-    t.boolean  "from_community",          :default => false
+    t.boolean  "from_community",           :default => false
     t.string   "cached_slug"
+    t.boolean  "exclude_from_most_recent", :default => false
   end
 
   add_index "conversations", ["cached_slug"], :name => "index_conversations_on_cached_slug", :unique => true
