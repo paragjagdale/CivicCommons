@@ -50,7 +50,7 @@ Civiccommons::Application.routes.draw do
   post '/conversations/radio/:id',                     to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
 
   #Search
-  match '/search/results',                             to: 'search#results'
+  match '/search/results',                             to: 'search#results',                                 as: 'search'
 
   #Subscriptions
   post '/subscriptions/subscribe',                     to: 'subscriptions#subscribe'

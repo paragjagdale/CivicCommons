@@ -84,9 +84,9 @@
                 = render :partial => 'layouts/single_column'
           .important
         #search
-          - form_for :search, :url => { :controller => 'search', :action => 'results'}, :html => {:method => "get"} do |f|
-            %input.textbox{:name=>'q'}
-            = f.submit :value => "Search", :class => 'submit'
+          - form_tag(search_path, :method => "get") do 
+            = text_field_tag(:q, 'Search', :class => 'textbox')
+            = submit_tag("Search", :class => 'submit', :name => nil)
     = yield :main_body
     #footer.footer
       #footer-inner
