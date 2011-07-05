@@ -1,7 +1,22 @@
 class SearchController < ApplicationController
   def results
-    @search = Conversation.search do
+
+    @conversations = Array.new
+    @issues = Array.new
+
+    search = Sunspot.search(Conversation, Issue) do
       keywords(params[:q])
     end
+
+    # divide the search results into their respective types
+    search.each_hit_with_result do |hit, result|
+      case result
+      when Issue
+        @issues << result
+      when Conversation
+        @conversations << result
+      else
+      end
+    end 
   end
 end

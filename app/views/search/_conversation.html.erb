@@ -1,0 +1,4 @@
+<div class="result">
+  <h4><%= link_to conversation.title, conversation_path(conversation) %></h4>
+  <p><%= raw(truncate(conversation.summary, length: 255)) %></p>
+</div>
