@@ -4,6 +4,13 @@ class Person < ActiveRecord::Base
   include GeometryForStyle
   include Marketable
 
+  searchable do
+    text :first_name, :default_boost => 2
+    text :last_name, :default_boost => 2
+    text :bio, :stored => true
+  end
+
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, and :timeoutable
   devise :database_authenticatable,

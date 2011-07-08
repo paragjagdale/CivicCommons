@@ -1,0 +1,4 @@
+<div class="result">
+  <h4><%= link_to person.title, community_path(person) %></h4>
+  <p><%= raw(truncate(person.summary, length: 255)) %></p>
+</div>
