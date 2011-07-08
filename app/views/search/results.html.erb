@@ -14,6 +14,12 @@
           <% @issues.each do |issue| %>
             <%= render :partial => 'issue', :locals => { :issue => issue } %>
           <% end %>
+
+          <h2>Community</h2>
+          <% @community.each do |person| %>
+            <%= render :partial => 'community', :locals => { :person => person } %>
+          <% end %>
+
         </div>
       </div>
 

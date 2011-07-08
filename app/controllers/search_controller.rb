@@ -3,6 +3,7 @@ class SearchController < ApplicationController
 
     @conversations = Array.new
     @issues = Array.new
+    @community = Array.new
 
     search = Sunspot.search(Conversation, Issue) do
       keywords(params[:q])
@@ -15,6 +16,8 @@ class SearchController < ApplicationController
         @issues << result
       when Conversation
         @conversations << result
+      when Person
+        @community << result
       else
       end
     end 
