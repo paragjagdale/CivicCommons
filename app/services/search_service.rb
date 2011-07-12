@@ -10,9 +10,9 @@ class SearchService
     end
   end
 
-  def fetch_results(params = nil)
-    @results = @search.search(Conversation, Issue) do
-      keywords(params[:q])
+  def fetch_results(query = nil, *models)
+    @results = @search.search(models) do
+      keywords(query)
     end
   end
 
