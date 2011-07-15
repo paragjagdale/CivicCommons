@@ -6,7 +6,7 @@ class SearchController < ApplicationController
     @community = Array.new
 
     search_service = SearchService.new
-    search = search_service.fetch_results params[:q], Conversation, Issue
+    search = search_service.fetch_results params[:q], Conversation, Issue, Person
 
 #    search = Sunspot.search(Conversation, Issue) do
 #      keywords(params[:q])
