@@ -9,7 +9,7 @@ class SearchController < ApplicationController
     search = search_service.fetch_results params[:q], Conversation, Issue, Person
 
     # divide the search results into their respective types
-    search.each_hit_with_result do |hit, result|
+    search.each do |result|
       case result
       when Issue
         @issues << result
