@@ -11,12 +11,12 @@ class SearchService
   end
 
   def fetch_results(query = nil, *models)
-    @results = @search.search(models) do
+    results = @search.search(models) do
       keywords(query)
     end
 
     fetched_results = []
-    @results.each_hit_with_result do |hit, result| 
+    results.each_hit_with_result do |hit, result| 
       fetched_results << result
     end
     return fetched_results
