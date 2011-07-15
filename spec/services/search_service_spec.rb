@@ -25,24 +25,23 @@ describe SearchService do
     context "Success" do
 
       before(:each) do
-        @stub_search = mock('search')
-        @search = SearchService.new(@stub_search)
+        @mock_search = mock('search')
+        @search = SearchService.new(@mock_search)
       end
 
       it "should pass all options through to Search" do
         params = Hash.new
         params[:q] = "Town"
 
-        @stub_search.should_receive(:search).with([Conversation]).and_return(nil)
+        @mock_search.should_receive(:search).with([Conversation]).and_return(nil)
         @search.fetch_results(params, Conversation)
       end
 
       it "should return a list of results" do
-        @stub_search.should_receive(:search).and_return("Town")
+        @mock_search.should_receive(:search).and_return("Town")
         @search.fetch_results().should == "Town"
       end
     end
-
   end
 =begin
     context "Success" do
