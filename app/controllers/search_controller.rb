@@ -8,10 +8,6 @@ class SearchController < ApplicationController
     search_service = SearchService.new
     search = search_service.fetch_results params[:q], Conversation, Issue, Person
 
-#    search = Sunspot.search(Conversation, Issue) do
-#      keywords(params[:q])
-#    end
-
     # divide the search results into their respective types
     search.each_hit_with_result do |hit, result|
       case result
