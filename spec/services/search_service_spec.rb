@@ -20,7 +20,7 @@ end
 
 describe SearchService do
 
-  describe "SearchService#fetch_results(params)" do
+  describe "SearchService#fetch_results(params, models)" do
 
     context "Success" do
 
@@ -33,13 +33,15 @@ describe SearchService do
         params = Hash.new
         params[:q] = "Town"
 
-        @mock_search.should_receive(:search).with([Conversation]).and_return(nil)
-        @search.fetch_results(params, Conversation)
+        @mock_search.should_receive(:search).with([Conversation]).and_return(@mock_search)
+        @mock_search.should_receive(:each_hit_with_result).and_return([])
+        @search.fetch_results(params, Conversation).should == []
       end
 
-      it "should return a list of results" do
-        @mock_search.should_receive(:search).and_return("Town")
-        @search.fetch_results().should == "Town"
+      it "should return an empty set of results" do
+        @mock_search.should_receive(:search).and_return(@mock_search)
+        @mock_search.should_receive(:each_hit_with_result).and_return([])
+        @search.fetch_results().should == []
       end
     end
   end
