@@ -6,25 +6,28 @@
       <div class="main-content">
         <div class="results">
           <%
-            @results.each do |hit|
-              case hit.result
-              when Issue %>
+            if(@results.length > 0)
+              @results.each do |hit|
+                case hit.result
+                when Issue %>
                 <%= render :partial => 'issue', :locals => { :hit => hit } %>
               <% when Conversation %>
                 <%= render :partial => 'conversation', :locals => { :hit => hit } %>
               <% when Person %>
                 <%= render :partial => 'community', :locals => { :hit => hit } %>
-              <% else
+              <% end
               end
-            end
-          %>
-        </div>
+            else %>
+            <p>Sorry. Your search did not return any results.</p>
+          <%end
+        %>
       </div>
-
-      <div class="aside supplementary">
-      </div>
-
     </div>
+
+    <div class="aside supplementary">
+    </div>
+
   </div>
+</div>
 <% end %>
 
