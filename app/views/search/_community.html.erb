@@ -1,4 +1,8 @@
 <div class="result community">
-  <h4><%= link_to hit.result.first_name << ' ' << hit.result.last_name, community_path(hit.result) %></h4>
+  <% 
+    person = hit.result
+    name = ( person.last_name.blank? ? person.name : person.last_name + ", " + person.first_name )
+  %>
+  <h4><%= link_to name, user_path(person), title: person.name %></h4>
   <%= best_hit_description(hit, :bio) %>
 </div>
