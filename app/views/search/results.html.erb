@@ -6,14 +6,16 @@
       <div class="main-content">
         <div class="results">
           <%
-            @results.each do |result|
-              case result
+            @results.each do |hit|
+              case hit.result
               when Issue %>
-                <%= render :partial => 'issue', :locals => { :issue => result } %>
+                <%= render :partial => 'issue', :locals => { :hit => hit } %>
               <% when Conversation %>
-                <%= render :partial => 'conversation', :locals => { :conversation => result } %>
+                <%= render :partial => 'conversation', :locals => { :hit => hit } %>
               <% when Person %>
-                <%= render :partial => 'community', :locals => { :person => result } %>
+                <%=
+                   render :partial => 'community', :locals => { :hit => hit }
+                 %>
               <% else
               end
             end

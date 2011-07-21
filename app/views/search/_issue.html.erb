@@ -1,4 +1,4 @@
-<div class="result">
-  <h4><%= link_to issue.name, issue_path(issue) %></h4>
-  <p><%= raw(truncate(issue.summary, length: 255)) %></p>
+<div class="result issue">
+  <h4><%= link_to hit.result.name, issue_path(hit.result) %></h4>
+  <%= best_hit_description(hit, :summary) %>
 </div>

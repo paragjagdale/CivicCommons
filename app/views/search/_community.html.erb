@@ -1,4 +1,4 @@
-<div class="result">
-  <h4><%= link_to person.first_name << ' ' << person.last_name, community_path(person) %></h4>
-  <p><%= raw(truncate(person.bio, length: 255)) %></p>
+<div class="result community">
+  <h4><%= link_to hit.result.first_name << ' ' << hit.result.last_name, community_path(hit.result) %></h4>
+  <%= best_hit_description(hit, :bio) %>
 </div>
