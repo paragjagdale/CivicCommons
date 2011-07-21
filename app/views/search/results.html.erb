@@ -13,9 +13,7 @@
               <% when Conversation %>
                 <%= render :partial => 'conversation', :locals => { :hit => hit } %>
               <% when Person %>
-                <%=
-                   render :partial => 'community', :locals => { :hit => hit }
-                 %>
+                <%= render :partial => 'community', :locals => { :hit => hit } %>
               <% else
               end
             end
