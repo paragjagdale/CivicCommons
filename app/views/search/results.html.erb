@@ -5,21 +5,19 @@
 
       <div class="main-content">
         <div class="results">
-          <h2>Conversatons</h2>
-          <% @conversations.each do |conversation| %>
-            <%= render :partial => 'conversation', :locals => { :conversation => conversation } %>
-          <% end %>
-
-          <h2>Issues</h2>
-          <% @issues.each do |issue| %>
-            <%= render :partial => 'issue', :locals => { :issue => issue } %>
-          <% end %>
-
-          <h2>Community</h2>
-          <% @community.each do |person| %>
-            <%= render :partial => 'community', :locals => { :person => person } %>
-          <% end %>
-
+          <%
+            @results.each do |result|
+              case result
+              when Issue %>
+                <%= render :partial => 'issue', :locals => { :issue => result } %>
+              <% when Conversation %>
+                <%= render :partial => 'conversation', :locals => { :conversation => result } %>
+              <% when Person %>
+                <%= render :partial => 'community', :locals => { :person => result } %>
+              <% else
+              end
+            end
+          %>
         </div>
       </div>
 
