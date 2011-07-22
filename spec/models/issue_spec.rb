@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe Issue do
 
+  def given_issue_with_nil_position
+    issue = Factory.create(:issue)
+    issue.position = nil
+    issue.save
+    issue
+  end
+
   def given_3_issues
     @issue1 = Factory.create(:issue, {:created_at => (Time.now - 3.seconds), :updated_at => (Time.now - 3.seconds), :name => 'A first issue'})
     @issue2 = Factory.create(:issue, {:created_at => (Time.now - 2.seconds), :updated_at => (Time.now - 2.seconds), :name => 'Before I had a problem'})
@@ -58,6 +65,16 @@ describe Issue do
 
     @conversation = Factory.create(:conversation,:issues => [@issue])
     @comment = Factory.create(:comment, :person => @person, :conversation => @conversation)
+  end
+
+  context "before_create" do
+    it "sets the position to the maximum position + 1" do
+      issue = Factory.create(:issue)
+      issue.position.should == 0
+      Factory.create(:issue)
+      issue = Factory.create(:issue)
+      issue.position.should == 2
+    end
   end
 
   context "validations" do
@@ -134,7 +151,13 @@ describe Issue do
   end
   
   context "Sort filter" do
-    
+    it "should sort by position ascending, id ascending by default" do
+      @issue1 = Factory.create(:issue, :position => 2)
+      @issue2 = Factory.create(:issue, :position => 0)
+      @issue3 = Factory.create(:issue, :position => 1)
+      Issue.sort(nil).collect(&:id).should == [@issue2, @issue3, @issue1].collect(&:id)
+    end
+
     it "should sort issue by alphabetical" do
       given_3_issues
       Issue.sort('alphabetical').collect(&:id).should == [@issue1, @issue2, @issue3].collect(&:id)
@@ -175,6 +198,59 @@ describe Issue do
       @other_issue.conversation_comments.should == []
     end
   
+  end
+
+  context "self.assign_positions" do
+    it "gives every item a position after sorting them by current position ascending, then id ascending" do
+      issue1 = given_issue_with_nil_position
+      issue2 = given_issue_with_nil_position
+      issue3 = given_issue_with_nil_position
+      issue4 = Factory.create(:issue, :position => 3)
+      Issue.assign_positions
+      issue4.reload.position.should == 0
+      issue1.reload.position.should == 1
+      issue2.reload.position.should == 2
+      issue3.reload.position.should == 3
+    end
+  end
+
+  context "self.set_position" do
+    it "updates position on relevant issues with an issue position becomes smallest" do
+      issue1 = Factory.create(:issue, :position => 0)
+      issue2 = Factory.create(:issue, :position => 1)
+      issue3 = Factory.create(:issue, :position => 2)
+      # drag issue2 to be above issue1
+      Issue.set_position(1, 0, nil)
+      Issue.custom_order.should == [issue2, issue1, issue3]
+    end
+
+    it "updates position on relevant issues with an issue position becomes largest" do
+      issue1 = Factory.create(:issue, :position => 0)
+      issue2 = Factory.create(:issue, :position => 1)
+      issue3 = Factory.create(:issue, :position => 2)
+      # drag issue2 to be below issue3
+      Issue.set_position(1, nil, 2)
+      Issue.custom_order.should == [issue1, issue3, issue2]
+    end
+
+    it "updates position on relevant issues with an issue position increases" do
+      issue1 = Factory.create(:issue, :position => 0)
+      issue2 = Factory.create(:issue, :position => 1)
+      issue3 = Factory.create(:issue, :position => 2)
+      # drag issue1 to be below issue2
+      Issue.set_position(0, 2, 1)
+      Issue.custom_order.should == [issue2, issue1, issue3]
+    end
+
+    it "updates position on relevant issues with an issue position decreases" do
+      issue1 = Factory.create(:issue, :position => 0)
+      issue2 = Factory.create(:issue, :position => 1)
+      issue3 = Factory.create(:issue, :position => 2)
+      # drag issue3 to be below issue1
+      Issue.set_position(2, 1, 0)
+      Issue.custom_order.should == [issue1, issue3, issue2]
+    end
+
   end
 
 end

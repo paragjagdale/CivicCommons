@@ -327,4 +327,15 @@ describe Conversation do
     end
   end
 
+  describe "conversations with exclude_from_most_recent" do
+    before(:all) do
+      @conversation = Factory.create(:conversation)
+      @excluded_conversation = Factory.create(:conversation, { exclude_from_most_recent: true })
+    end
+
+    it "will not show in latest_created scope" do
+      Conversation.latest_created.include?(@conversation).should be_true
+      Conversation.latest_created.include?(@excluded_conversation).should be_false
+    end
+  end
 end

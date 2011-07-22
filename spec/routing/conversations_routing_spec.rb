@@ -27,14 +27,6 @@ describe ConversationsController do
       { get: "/conversations/node_permalink/1" }.should route_to(controller: "conversations", action: "node_permalink", id: "1")
     end
 
-    it "recognizes and generates #edit_node_contribution" do
-      { get: "/conversations/edit_node_contribution" }.should route_to(controller: "conversations", action: "edit_node_contribution")
-    end
-
-    it "recognizes and generates #update_node_contribution" do
-      { put: "/conversations/update_node_contribution" }.should route_to(controller: "conversations", action: "update_node_contribution")
-    end
-
     it "recognizes and generates #new_node_contribution" do
       { get: "/conversations/new_node_contribution" }.should route_to(controller: "conversations", action: "new_node_contribution")
     end

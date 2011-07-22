@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe '/issues/contributions/_suggested_action.html.erb' do
-  
+
   def stub_person(stubs={})
     stub_model(Person, stubs)
   end
-  
+
   def stub_contribution(stubs={})
     stub_model(Contribution, stubs)
   end
-  
+
   before(:each) do
     @person = stub_person(:name => 'john doe')
     @contribution = stub_contribution(:person => @person)

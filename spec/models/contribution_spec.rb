@@ -43,71 +43,154 @@ describe Contribution do
   describe "when editing and deleting confirmed contributions" do
 
     before(:each) do
-      @person = Factory.create(:normal_person)
-      @other_person = Factory.create(:normal_person)
-      @admin_person = Factory.create(:admin_person)
+      @person = Factory.create(:registered_user)
       @old_contribution = Factory.create(:contribution, {:created_at => Time.now - 35.minutes, :person => @person})
       @new_contribution = Factory.create(:contribution, {:created_at => Time.now - 25.minutes, :person => @person})
       @new_params = { 'content' => "Some new comment", 'url' => "http://www.example.com/some-other-link" }
-      @non_updateable_params = {:parent_id => @new_contribution.id + 1}
     end
 
-    it "allows deletion by the user within 30 minutes of creation" do
-      @new_contribution.should_receive(:destroy)
-      @new_contribution.destroy_by_user(@person)
-    end
+    context "as the contributing user" do
 
-    it "disallows deletion by the user if older than 30 minutes" do
-      @old_contribution.should_not_receive(:destroy)
-      @old_contribution.destroy_by_user(@person)
-      @old_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
-    end
-
-    it "disallows deletion by another user" do
-      @new_contribution.should_not_receive(:destroy)
-      @new_contribution.destroy_by_user(@other_person)
-      @new_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
-    end
-
-    it "allows deletion by an admin at any time" do
-      @old_contribution.should_receive(:destroy)
-      @old_contribution.destroy_by_user(@admin_person)
-    end
-
-    it "allows editing by the user within 30 minutes of creation" do
-      @new_contribution.should_receive(:update)
-      @new_contribution.update_attributes_by_user(@new_params, @person)
-    end
-
-    it "disallows editing by the user if older than 30 minutes" do
-      @old_contribution.should_not_receive(:update)
-      @old_contribution.update_attributes_by_user(@new_params, @person)
-      @old_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
-    end
-
-    it "disallows editing by another user" do
-      @new_contribution.should_not_receive(:update)
-      @new_contribution.update_attributes_by_user(@new_params, @other_person)
-      @new_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
-    end
-
-    it "allows editing by an admin at any time" do
-      @old_contribution.should_receive(:update)
-      @old_contribution.update_attributes_by_user(@new_params, @admin_person)
-    end
-
-    it "only updates updateable parameters" do
-      @new_contribution.update_attributes_by_user(@new_params.merge(@non_updateable_params), @person)
-      @new_params.each do |key, value|
-        @new_contribution[key].should == value
+      it "allows deletion by the user within 30 minutes of creation" do
+        @new_contribution.should_receive(:destroy)
+        @new_contribution.destroy_by_user(@person)
       end
-      @non_updateable_params.each do |key, value|
-        @new_contribution[key].should_not == value
+
+      it "disallows deletion by the user if older than 30 minutes" do
+        @old_contribution.should_not_receive(:destroy)
+        @old_contribution.destroy_by_user(@person)
+        @old_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
       end
+
+      it "disallows deletion by the user if anyone has rated or replied to the contribution" do
+        rating_group = Factory.create(:rating_group, contribution: @new_contribution)
+        @new_contribution.should_not_receive(:destroy)
+        @new_contribution.destroy_by_user(@person)
+        @new_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
+      end
+
+      it "allows editing by the user within 30 minutes of creation" do
+        @new_contribution.should_receive(:update)
+        @new_contribution.update_attributes_by_user(@new_params, @person)
+      end
+
+      it "disallows editing by the user if older than 30 minutes" do
+        @old_contribution.should_not_receive(:update)
+        @old_contribution.update_attributes_by_user(@new_params, @person)
+        @old_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
+      end
+
+      it "disallows editing by the user if anyone has rated or replied to the contribution" do
+        rating_group = Factory.create(:rating_group, contribution: @new_contribution)
+        @new_contribution.should_not_receive(:update)
+        @new_contribution.update_attributes_by_user(@new_params, @person)
+        @new_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
+      end
+
+      it "only updates updateable parameters" do
+        @non_updateable_params = {:parent_id => @new_contribution.id + 1}
+        @new_contribution.update_attributes_by_user(@new_params.merge(@non_updateable_params), @person)
+        @new_params.each do |key, value|
+          @new_contribution[key].should == value
+        end
+        @non_updateable_params.each do |key, value|
+          @new_contribution[key].should_not == value
+        end
+      end
+    end
+
+    context "as an admin user" do
+
+      before(:each) do
+        @admin_person = Factory.create(:admin_person)
+      end
+
+      it "allows deletion by an admin at any time" do
+        @old_contribution.should_receive(:destroy)
+        @old_contribution.destroy_by_user(@admin_person)
+      end
+
+      it "allows editing by an admin at any time" do
+        @old_contribution.should_receive(:update)
+        @old_contribution.update_attributes_by_user(@new_params, @admin_person)
+      end
+
+    end
+
+    context "as another user" do
+
+      before(:each) do
+        @other_person = Factory.create(:registered_user)
+      end
+
+      it "disallows deletion by another user" do
+        @new_contribution.should_not_receive(:destroy)
+        @new_contribution.destroy_by_user(@other_person)
+        @new_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
+      end
+
+      it "disallows deletion by another user" do
+        @new_contribution.should_not_receive(:destroy)
+        @new_contribution.destroy_by_user(@other_person)
+        @new_contribution.should have_generic_error(:base, /Contributions cannot be deleted if they are older than 30 minutes or have any responses./)
+      end
+
+      it "disallows editing by another user" do
+        @new_contribution.should_not_receive(:update)
+        @new_contribution.update_attributes_by_user(@new_params, @other_person)
+        @new_contribution.should have_generic_error(:base, /Contributions cannot be edited if they are older than 30 minutes or have any responses./)
+      end
+
     end
 
     it "#editable_by?(user) returns false for a logged-out user" do
       @new_contribution.editable_by?(nil).should be_false
+    end
+
+  end
+
+  describe "moderating content" do
+
+    before :each do
+      @reason = { :moderation_reason => "violates tos" }
+      @person = Factory.create(:admin_person)
+    end
+
+    it "sets the reason for moderation in the content" do
+      contribution = Factory.create(:comment)
+      reason = { :comment => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.content.should match(reason[:comment][:moderation_reason])
+    end
+
+    it "sets the contribution type to Comment" do
+      contribution = Factory.create(:question)
+      reason = { :question => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.type.should == 'Comment'
+    end
+
+    it "clears attachments" do
+      contribution = Factory.create(:attached_file)
+      reason = { :attached_file => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.attachment.should_not exist
+    end
+
+    it "clears embedly_content" do
+      contribution = Factory.create(:embedly_contribution)
+      reason = { :embedly_contribution => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.embedly_code.should be_nil
+      contribution.embedly_type.should be_nil
+    end
+
+    it "clears title and description" do
+      contribution = Factory.create(:embedly_contribution)
+      reason = { :embedly_contribution => @reason }
+      contribution.moderate_content(reason, @person).should be_true
+      contribution.title.should be_nil
+      contribution.description.should be_nil
     end
 
   end
@@ -375,19 +458,6 @@ describe Contribution do
                                          :content => "Foo Bar",
                                          :type => "Comment"}, nil)
       contribution.valid?.should be_false
-    end
-
-  end
-
-  describe "Contribution#moderate_contribution" do
-
-    it "Deletes the contribution and all nested contributions returning true" do
-      contribution = Contribution.new(content: "Hello There", type: "Comment", owner: 1)
-      first_nested_contribution = Contribution.new(content: "You are wrong", type: "Comment", owner: 2, parent: contribution)
-      second_nested_contribution = Contribution.new(content: "Both are wrong", type: "Comment", owner: 3, parent: contribution)
-
-      contribution.moderate_contribution.should == true
-      contribution.descendants.length.should == 0
     end
 
   end

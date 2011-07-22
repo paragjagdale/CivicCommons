@@ -5,7 +5,9 @@ class Contribution < ActiveRecord::Base
 
   # nested contributions are destroyed via callbacks
   acts_as_nested_set :exclude_unless => {:confirmed => true}, :dependent => :destroy
+  acts_as_revisionable
   profanity_filter :content, :method => 'hollow'
+  attr_accessor :moderation_reason
 
   ALL_TYPES = ["Answer","AttachedFile","Comment","EmbeddedSnippet","Link",
                "Question","SuggestedAction", "EmbedlyContribution"]
@@ -13,6 +15,7 @@ class Contribution < ActiveRecord::Base
   belongs_to :person, :foreign_key => "owner"
   belongs_to :conversation
   belongs_to :issue
+  has_many   :rating_groups
 
   validates_with ContributionValidator
   validates :item, :presence=>true
@@ -121,15 +124,15 @@ class Contribution < ActiveRecord::Base
   def suggestion?
     false
   end
-  
+
   def unconfirmed?
     !self.confirmed
   end
-  
+
   def confirm!
     self.update_attribute(:confirmed, true)
   end
-  
+
   def destroy_by_user(user)
     if self.editable_by?(user)
       self.destroy
@@ -138,7 +141,7 @@ class Contribution < ActiveRecord::Base
       return false
     end
   end
-  
+
   def update_attributes_by_user(params, user)
     params = params.select{ |k,v| ['content', 'url', 'attachment'].include?(k.to_s) && !v.blank? }
     if self.editable_by?(user)
@@ -148,17 +151,31 @@ class Contribution < ActiveRecord::Base
       return false
     end
   end
-  
-  def editable_by?(user)
-    return false if user.nil?
-    (user.admin? || (self.owner == user.id && self.created_at > 30.minutes.ago)) && self.confirmed && self.descendants_count == 0
+
+  def editable_by?(user = nil)
+    if user && (user.admin? || owner_editable?(user))
+      true
+    else
+      false
+    end
   end
 
-  def moderate_contribution
-    self.destroy_descendants
+  def moderate_content(params, moderated_by)
+   contribution_type = self.type.underscore.to_sym
+   reason = params[contribution_type][:moderation_reason]
+   self.content = "<b><i>Contribution removed by #{moderated_by.name} on #{Time.now.strftime('%B %d, %Y')}, for the following reason: #{reason}</i></b>"
+   self.clear_attributes
+   self.type = "Comment"
+   self.save(validate: false)
+  end
 
-    self.destroy
-    true
+  def clear_attributes
+    if respond_to?(:attachment)
+      destroy_attached_files
+    end
+    [:url=, :embedly_type=, :embedly_code=, :title=, :description=].each do |attribute|
+      self.send(attribute, nil)
+    end
   end
 
   def attachment_url
@@ -172,12 +189,12 @@ class Contribution < ActiveRecord::Base
       ''
     end
   end
-  
+
   def override_confirmed=(value)
     @override_confirmed = value
     self.confirmed = true if value
   end
-  
+
   def contribution_type
     if self.you_tubeable?
       :video
@@ -187,6 +204,14 @@ class Contribution < ActiveRecord::Base
       :image
     else
       self.type.underscore
+    end
+  end
+
+  def owner_editable?(user)
+    if self.owner == user.id && self.created_at > 30.minutes.ago && self.descendants_count == 0 && self.rating_groups.empty?
+      true
+    else
+      false
     end
   end
 
@@ -228,4 +253,5 @@ class Contribution < ActiveRecord::Base
   def set_person_from_item
     self.person = item.person
   end
+
 end

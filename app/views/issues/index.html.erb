@@ -1,38 +1,29 @@
-<div class="feature-mast">
-  <div class="wrapper">
-    <div class="content-container">
-      <%= render :partial => '/articles/featured' %>
-    </div><!-- /.content-container -->
-  </div>
-</div>
-
 <div class="wrapper">
-<div class="content-container">
-  <h1>Issues</h1>
-  <div class="main-content">
-    <h3>Most Recent Issues</h3>
-        <% @issues.each do |issue| %>
-	<div class="issue-container">
-		<div class="issue-details">
-	  		<%= image_tag issue.image.url(:panel) %>
+  <div class="content-container">
+    <h1>Issues</h1>
+    <div class="main-content">
+      <% svc = ParticipationService.new %>
+      <% @issues.each do |issue| %>
+        <div class="issue-container">
+          <div class="issue-details">
+            <%= image_tag issue.image.url(:panel) %>
             <h4><%= link_to issue.name, issue_path(issue) %></h4>
             <p><%= raw(truncate(issue.summary, length: 255)) %></p>
-		</div>
-		<div class="issue-meta">
-			<p class="issue-res"><%= pluralize(issue.contributions.size, "Resources") %></p>
-			<p class="issue-contrib"><%= pluralize(issue.participants.size, "Participants") %></p>
-			<p class="issue-conv"><%= pluralize(issue.conversations.size, "Conversation") %></p>
-		</div>
-	</div>
-        <% end %>
-    <div class="pagination">
-      <%= will_paginate @issues, :inner_window => 3, :previous_label => "Previous", :next_label => "Next" %>
-    </div>
-  </div><!-- /.main-content -->			
-  <div class='aside supplementary'>
-    <%= render_recent_items_sidebar %>
-    <%= render :partial => '/regions/index' %>
-  </div><!-- /.aside -->			
-</div><!-- /.content-container -->
-</div>
+          </div>
+          <div class="issue-meta">
+            <p class="issue-res"><%= pluralize(issue.contributions.size, "Resource") %></p>
+            <p class="issue-contrib"><%= pluralize(svc.participants_by_issue(issue.id), "Participant") %></p>
+            <p class="issue-conv"><%= pluralize(svc.conversations_by_issue(issue.id), "Conversation") %></p>
+          </div>
+        </div>
+      <% end %>
+      <div class="pagination">
+        <%= will_paginate @issues, :inner_window => 3, :previous_label => "Previous", :next_label => "Next" %>
+      </div>
+    </div><!-- /.main-content -->			
+    <div class='aside supplementary'>
+      <%= render_recent_items_sidebar %>
+      <%= render :partial => '/regions/index' %>
+    </div><!-- /.aside -->			
+  </div><!-- /.content-container -->
 </div>

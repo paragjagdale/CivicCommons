@@ -50,4 +50,39 @@ describe ContentItem do
 
   end
 
+  context "custom finders" do
+
+    context "recent_blog_posts" do
+
+      before(:each) do
+        @p1 = Factory.create(:admin_person)
+        @p2 = Factory.create(:admin_person)
+        @b1_1 = Factory.create(:blog_post, author: @p1, published: 1.day.ago, created_at: 1.day.ago)
+        @b2_1 = Factory.create(:blog_post, author: @p2, published: 2.days.ago, created_at: 2.days.ago)
+        @b2_2 = Factory.create(:blog_post, author: @p2, published: 2.days.ago, created_at: 3.days.ago)
+        @b2_3 = Factory.create(:blog_post, author: @p2, published: 3.day.ago, created_at: 3.days.ago)
+      end
+
+      it "retrieves all blog posts sorted properly when no author is given" do
+        blogs = ContentItem.recent_blog_posts
+        blogs.first.id = @b1_1.id
+        blogs.last.id = @b2_3.id
+      end
+
+      it "retrieves all blog posts by one author sorted properly when author id given" do
+        blogs = ContentItem.recent_blog_posts(@p2.id)
+        blogs.first.id = @b2_1.id
+        blogs.last.id = @b2_3.id
+      end
+
+      it "retrieves all blog posts by one author sorted properly when author Person is given" do
+        blogs = ContentItem.recent_blog_posts(@p2)
+        blogs.first.id = @b2_1.id
+        blogs.last.id = @b2_3.id
+      end
+
+    end
+
+  end
+
 end

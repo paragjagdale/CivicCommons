@@ -49,4 +49,26 @@ describe Admin::PeopleController, "locking/unlocking" do
 
   end
 
+  describe "changing a person's Admin role" do
+    it "should be successful when the current person is an admin" do
+      put :update, id: @person.id, :person =>{:admin=>true}
+      @person.reload
+      @person.admin.should be_true
+    end
+    
+    it "should not be successful when the current person is not an admin" do
+      @admin.admin = false
+      @admin.save
+      put :update, id: @person.id
+      @person.reload
+      @person.admin.should be_false
+    end
+    
+    it "should not be successful if there is no admin parameter" do
+      put :update, id: @person.id
+      @person.reload
+      @person.admin.should be_false
+      
+    end
+  end
 end

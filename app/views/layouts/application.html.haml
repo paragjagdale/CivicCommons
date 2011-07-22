@@ -54,6 +54,7 @@
     = auto_discovery_link_tag(:rss, "http://feeds.theciviccommons.com/civiccommonsblog", { :title => "The Civic Commons: Common Blog" } )
     = auto_discovery_link_tag(:rss, "http://feeds.theciviccommons.com/civiccommonsradio", { :title => "The Civic Commons Radio Show" } )
     = auto_discovery_link_tag(:rss, "http://feeds.theciviccommons.com/civiccommonsnews", { :title => "The Civic Commons In The News" } )
+
     = csrf_meta_tag
 
   %body
@@ -82,6 +83,10 @@
               .offset-2
                 = render :partial => 'layouts/single_column'
           .important
+        #search
+          = form_tag(search_path, :method => "get") do 
+            = text_field_tag(:q, 'Search', :class => 'textbox')
+            = submit_tag("Search", :class => 'submit', :id => 'Search', :name => nil)
     = yield :main_body
     #footer.footer
       #footer-inner
@@ -110,9 +115,13 @@
                 = link_to 'Radio Show', radioshow_index_url
               %li
                 = link_to 'RSS Feeds', feeds_url
+              %li
+                = link_to 'Server Status', 'http://status.theciviccommons.com/'
           .cols
             %h3 Work with the Commons
             %ul.sub-nav
+              %li
+                = link_to 'Help and Support', 'http://getsatisfaction.com/theciviccommons'
               %li
                 = link_to 'Contact Us', contact_us_url
               %li
@@ -121,6 +130,7 @@
                 = link_to 'Terms of Use', terms_url
               %li
                 = link_to 'Privacy Policy', privacy_url
+
           .cols
             %h3 The Civic Commons Elsewhere
             %ul.social-media
@@ -137,3 +147,5 @@
 
 = render :partial => '/shared/suggest_facebook_auth.js' if signed_in? && !current_person.declined_fb_auth? && !current_person.facebook_authenticated?
 = render :partial => '/shared/show_colorbox.js', :locals => {:path => successful_fb_registration_path} if flash[:successful_fb_registration_modal]
+    
+= render :partial => 'layouts/get_satisfaction'

@@ -42,7 +42,7 @@ class RatingGroup < ActiveRecord::Base
   end
 
   def ratings_titles
-    self.ratings.collect(&:title)#.to_sentance
+    self.ratings.collect(&:title).to_sentence
   end
 
 
@@ -56,6 +56,7 @@ class RatingGroup < ActiveRecord::Base
   #      AND R.`RATING_DESCRIPTOR_ID` = RD.ID
   # GROUP BY CONTRIBUTION_ID,
   #          RATING_DESCRIPTOR_ID
+
   def self.ratings_for_conversation(conversation)
     rgs = RatingGroup.where(:conversation_id => conversation).includes(:ratings)
 

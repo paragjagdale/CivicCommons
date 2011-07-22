@@ -25,7 +25,7 @@
             %div.tos
               Inappropriate?
               = link_to("Alert us.",
-                          {:controller => "tos", :action => "tos_contribution", :contribution => contribution.id},
+                          new_tos_path(contribution),
                           :class => "text conversation-action top-level-contribution-action-button",
                           :id => "action-link-#{contribution.id}",
                           'data-colorbox' => true,

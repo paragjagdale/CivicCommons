@@ -32,38 +32,41 @@ Civiccommons::Application.routes.draw do
   get   '/authentication/confirm_facebook_unlinking',  to: 'authentication#confirm_facebook_unlinking',      as: 'confirm_facebook_unlinking'
   get   '/authentication/before_facebook_unlinking',   to: 'authentication#before_facebook_unlinking',       as: 'before_facebook_unlinking'
   delete '/authentication/process_facebook_unlinking', to: 'authentication#process_facebook_unlinking',      as: 'process_facebook_unlinking'
-  
+
   #Contributions
   post '/contributions/create_confirmed_contribution', to: 'contributions#create_confirmed_contribution',    as: 'create_confirmed_contribution'
-  get  '/tos/tos_contribution',                        to: 'tos#tos_contribution',                           as: 'tos_contribution'
-  delete '/contributions/moderate/:id',                to: 'contributions#moderate_contribution',            as: 'moderate_contribution'
-  delete '/contributions/:id',                         to: 'contributions#destroy',                          as: 'contribution'
 
   #Conversations
   match '/conversations/preview_node_contribution',    to: 'conversations#preview_node_contribution'
+#  match '/conversations/search',                       to: 'conversations#search'
   get '/conversations/node_conversation',              to: 'conversations#node_conversation'
   get '/conversations/new_node_contribution',          to: 'conversations#new_node_contribution'
-  get '/conversations/edit_node_contribution',         to: 'conversations#edit_node_contribution'
   get '/conversations/node_permalink/:id',             to: 'conversations#node_permalink'
-  put '/conversations/update_node_contribution',       to: 'conversations#update_node_contribution'
   put '/conversations/confirm_node_contribution',      to: 'conversations#confirm_node_contribution'
   get '/conversations/responsibilities',               to: 'conversations#responsibilities',                 as: 'conversation_responsibilities'
   get '/conversations/rss',                            to: 'conversations#rss',                              as: 'conversation_rss'
   post '/conversations/toggle_rating',                 to: 'conversations#toggle_rating',                    as: 'conversation_contribution_toggle_rating'
-  post 'conversations/blog/:id',                       to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
-  post 'conversations/radio/:id',                      to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
-  
+  post '/conversations/blog/:id',                      to: 'conversations#create_from_blog_post',            as: 'start_conversation_from_blog_post'
+  post '/conversations/radio/:id',                     to: 'conversations#create_from_radioshow',            as: 'start_conversation_from_radioshow'
+
+  #Search
+  match '/search/results',                             to: 'search#results',                                 as: 'search'
+
   #Subscriptions
   post '/subscriptions/subscribe',                     to: 'subscriptions#subscribe'
   post '/subscriptions/unsubscribe',                   to: 'subscriptions#unsubscribe'
-  
+
+  #ToS
+  get  '/tos/:contribution_id',                        to: 'tos#new',                                        as: 'new_tos'
+  post '/tos/:contribution_id',                        to: 'tos#create',                                     as: 'tos'
+
   #UnsubscribeDigest
   get '/unsubscribe-me/:id',                           to: 'unsubscribe_digest#unsubscribe_me',              as: 'unsubscribe_confirmation'
   put '/unsubscribe-me/:id',                           to: 'unsubscribe_digest#remove_from_digest'
 
   #Community
   get '/community',                                    to: 'community#index',                                as: 'community'
-  
+
   #Content
   get '/podcast',                                      to: 'radioshow#podcast',                              as: 'podcast'
 
@@ -109,18 +112,28 @@ Civiccommons::Application.routes.draw do
 
 #Resource Declared Routes
   #Declare genericly-matched GET routes after Filters
+
   resources :user, only: [:show, :update, :edit] do
     delete "destroy_avatar", on: :member
   end
+
   resources :issues, only: [:index, :show] do
     post 'create_contribution', on: :member
     resources :pages, controller: :managed_issue_pages, only: [:show]
   end
-  resources :conversations, only: [:index, :show, :new, :create]
+
+  resources :conversations, only: [:index, :show, :new, :create] do
+    resources :contributions, only: [:edit, :update, :destroy] do
+      get '/moderate', to: 'contributions#moderate', on: :member
+      put '/moderate', to: 'contributions#moderated', on: :member
+    end
+  end
+
+  resources :contributions, only: [:destroy]
+
   resources :regions, only: [:index, :show]
   resources :links, only: [:new, :create]
   resources :invites, only: [:new, :create]
-  resources :tos, only: [:new, :create]
   resources :pages, only: [:show]
   resources :blog, only: [:index, :show]
   resources :content, only: [:index, :show]
@@ -140,6 +153,7 @@ Civiccommons::Application.routes.draw do
     end
     resources :issues, do
       resources :pages, controller: :managed_issue_pages
+      post 'update_order', on: :collection
     end
     get '/issues/pages/all', to: 'managed_issue_pages#all'
     resources :regions
@@ -150,13 +164,6 @@ Civiccommons::Application.routes.draw do
       put 'confirm',       on: :member
     end
     resources :user_registrations, only: [:new, :create]
-  end
-
-  namespace "api" do
-    get '/:id/conversations',                              to: 'conversations#index',  format: :json
-    get '/:id/issues',                                     to: 'issues#index',         format: :json
-    get '/:id/contributions',                              to: 'contributions#index',  format: :json
-    get '/:id/subscriptions',                              to: 'subscriptions#index',  format: :json
   end
 
 end

@@ -197,11 +197,13 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 background-color: #8dbdd8;
 }
 
-table.conversations {
+table.conversations,
+table.issues {
 	background-color: inherit;
 }
 
-table.conversations td.handle {
+table.conversations td.handle,
+table.issues td.handle {
 	background-color: white;
 	cursor: move;
 	font-size: 2em;
@@ -209,7 +211,8 @@ table.conversations td.handle {
 	width: 20px;
 }
 
-table.conversations td.handle:hover {
+table.conversations td.handle:hover,
+table.issues td.handle:hover {
 	opacity: 1;
 }
 

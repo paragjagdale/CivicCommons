@@ -8,14 +8,14 @@ describe 'user/show.html.erb' do
       :bio => 'biohere'
     )
     @contribution = stub_model(Contribution)
-    @contributions = []
+    @recent_items = []
     @issue_subscription = stub_model(Subscription)
     @issue_subscriptions = []
     @conversation_subscription = stub_model(Subscription)
     @conversation_subscriptions = []
     @recent_items = []
   end
-  
+
   it "should display profile image" do
     stubs
     view.should_receive(:profile_image)

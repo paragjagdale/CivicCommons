@@ -22,12 +22,13 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
           xml.guid conversation_url(recent_item)
           xml.description recent_item.summary
         elsif recent_item.is_a?(RatingGroup)
-          xml.title "#{recent_item.person.name} rated a response from #{recent_item.contribution.person.name} as #{recent_item.ratings_titles.to_sentence}"
+          xml.title "#{recent_item.person.name} rated a response from #{recent_item.contribution.person.name} as #{Rating.find_by_rating_group_id(recent_item.id).rating_descriptor.title}"
           xml.link conversation_url(recent_item.contribution.conversation)
           xml.guid conversation_url(recent_item.contribution.conversation)
           xml.description "#{recent_item.contribution.person.name} said '#{recent_item.contribution.content}'"
         elsif recent_item.is_a?(Contribution)
-          xml.title "#{@user.name} responded to the conversation '#{recent_item.conversation.title}'"
+          recent_item = ContributionPresenter.new(recent_item)
+          xml.title "#{@user.name} responded to the conversation '#{recent_item.parent_title}'"
           xml.link conversation_node_url(recent_item)
           xml.guid conversation_node_url(recent_item)
           xml.description Sanitize.clean(recent_item.content)

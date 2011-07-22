@@ -194,5 +194,9 @@ describe RatingGroup do
 
       ratings[contribution.id].should == expected_result
     end
+
+    it "returns a sentance for listing all assigned rating titles" do
+      @rg.ratings_titles.should == 'Inspiring and Motivating'
+    end
   end
 end

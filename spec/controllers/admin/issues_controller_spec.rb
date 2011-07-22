@@ -212,6 +212,48 @@ module Admin
 
     end
 
+    describe "PUT update_order" do
+      it "returns an error response if current_position is blank" do
+        put :update_order, :current => ''
+        response.should_not be_success
+      end
+
+      it "returns an error response if current_position is not blank, but next and previous are" do
+        Factory.create(:issue, :position => 0)
+        put :update_order, :current => '0', :next => '', :prev => ''
+        response.should_not be_success
+      end
+
+      it "returns a success response if current_position is not blank, and next_position or prev_position or both" do
+        Factory.create(:issue, :position => 0)
+        Factory.create(:issue, :position => 1)
+        Factory.create(:issue, :position => 2)
+        put :update_order, :current => '0', :next => '1'
+        response.should be_success
+        put :update_order, :current => '0', :prev => '1'
+        response.should be_success
+        put :update_order, :current => '0', :next => '1', :prev => '2'
+        response.should be_success
+      end
+
+      it "returns an error response if current_position does not exist for an issue" do
+        put :update_order, :current => '0'
+        response.should_not be_success
+      end
+
+      it "returns an error response if next_position does not exist for an issue and previous is not set" do
+        Factory.create(:issue, :position => 0)
+        put :update_order, :current => '0', :next => '1'
+        response.should_not be_success
+      end
+
+      it "returns an error response if previous_position does not exist for an issue and next is not set" do
+        Factory.create(:issue, :position => 0)
+        put :update_order, :current => '0', :prev => '1'
+        response.should_not be_success
+      end
+    end
+
     describe "DELETE destroy" do
 
       let(:issue) do

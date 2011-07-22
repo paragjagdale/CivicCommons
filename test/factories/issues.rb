@@ -9,4 +9,5 @@ Factory.define :issue do |f|
   f.recent_visits 0
   f.last_visit_date nil
   f.zip_code '44313'
+  f.position nil
 end

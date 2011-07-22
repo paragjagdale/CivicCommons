@@ -16,6 +16,15 @@ class ContentItem < ActiveRecord::Base
 
   has_friendly_id :title, :use_slug => true, :strip_non_ascii => true
 
+  def self.recent_blog_posts(author = nil)
+    if author.nil?
+      ContentItem.where("content_type = 'BlogPost' AND (published <= curdate() OR DAY(published) = DAY(curdate())) ").order("published desc, created_at desc")
+    else
+      author = author.id if author.is_a? Person
+      ContentItem.where(person_id: author).where("content_type = 'BlogPost' AND (published <= curdate() OR DAY(published) = DAY(curdate())) ").order("published desc, created_at desc")
+    end
+  end
+
 private
 
   def content_type_is_blog_post?

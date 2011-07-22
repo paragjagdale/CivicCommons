@@ -19,9 +19,15 @@
             <p class="convo-meta"><%= render :partial => 'shared/twitter_share', locals: { title: @radioshow.title} %></p>
             <div class="body"><%= raw @radioshow.body %></div>
             <p>&nbsp;</p>
-            <p>Aired on <%= @radioshow.published.strftime('%B %d, %Y') %></p> 
+            <h4>Aired on <%= @radioshow.published.strftime('%B %d, %Y') %></h4>
           </div>
+
           <%= render partial: 'radioshow/embed', radioshow: @radioshow %>
+
+          <p style="font-style:italic; margin-top:20px;">
+            Copyright &copy; <%= @radioshow.published.strftime('%Y') %> The Civic Commons; available under the
+            <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike License</a>.
+          </p>
 
         </div>
 

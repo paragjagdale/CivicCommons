@@ -1,21 +1,21 @@
 class TosController < ApplicationController
   before_filter :require_user
 
-  def tos_contribution
-    @contribution = params[:contribution]
+  def new
+    @contribution = params[:contribution_id]
 
     respond_to do |format|
       if request.xhr?
         format.html { render :partial => 'tos_contribution_form', :layout => false }
       else
-        format.html
+        format.html { render :partial => 'tos_contribution_form'}
       end
     end
   end
 
   def create
     reason = params[:tos][:reason]
-    @contribution = Contribution.find(params[:contribution])
+    @contribution = Contribution.find(params[:contribution_id])
     if !reason.blank? && @contribution
       result = Tos.send_violation_complaint(current_person, @contribution, reason)
     end

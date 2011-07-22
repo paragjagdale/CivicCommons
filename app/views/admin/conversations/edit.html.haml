@@ -41,6 +41,11 @@
     =conversation.text_field :zip_code
 
   %p
+    =conversation.label :exclude_from_most_recent, "Exclude from Most Recent"
+    %br
+    =conversation.check_box :exclude_from_most_recent
+
+  %p
     =conversation.label :issues, "Select Issues"
     %br
     %table

@@ -13,7 +13,8 @@ class Registrations::OmniauthCallbacksController < Devise::OmniauthCallbacksCont
   end
   
   def failure
-    render :text => "#{I18n.t('devise.omniauth_callbacks.failure', :kind => failed_strategy.name.to_s.humanize, :reason => failure_message)}"
+    text = "#{I18n.t('devise.omniauth_callbacks.failure', :kind => failed_strategy.name.to_s.humanize, :reason => failure_message)}"
+    render_popup(text) 
   end
 
 private
@@ -75,18 +76,6 @@ private
     sign_in authentication.person, :event => :authentication
     render_js_redirect_to (env['omniauth.origin'] || root_path), :text => 'Logging in to CivicCommons with Facebook...'
   end
-  
-  def render_js_colorbox(options={})
-    text = options.delete(:text) || 'Redirecting back to CivicCommons....'
-    path = options.delete(:path)
-    render :text => "#{text}<script type='text/javascript'>
-      if(window.opener) {
-        window.opener.$.colorbox({href:'#{path}',opacity:0.5, onComplete: function(){
-          window.close();
-        }});
-        }
-      </script>"
-  end
 
   def render_js_registering_email_taken(options={})
     options[:path] = registering_email_taken_path
@@ -103,16 +92,30 @@ private
     render_js_colorbox(options)
   end
   
+  def render_js_colorbox(options={})
+    @text = options.delete(:text) || 'Redirecting back to CivicCommons....'
+    @path = options.delete(:path)
+    @script = "if(window.opener) {
+        window.opener.$.colorbox({href:'#{@path}',opacity:0.5, onComplete: function(){
+          window.close();
+        }});
+        }"
+    render_popup(@text, @script) 
+  end
+  
   def render_js_redirect_to(path = '', options={})
-    text = options.delete(:text) || 'Redirecting back to CivicCommons....'
-    render :text => "#{text}<script type='text/javascript'>
-      if(window.opener) {
-        window.opener.onunload = function(){
-            window.close();
-        };
-        window.opener.location = '#{path}';
-        }
-      </script>"
+    @text = options.delete(:text) || 'Redirecting back to CivicCommons....'
+    @script = "if(window.opener) {
+          window.opener.onunload = function(){
+              window.close();
+          };
+          window.opener.location = '#{path}';
+          }"
+   render_popup(@text, @script) 
   end  
+  
+  def render_popup(text,script = nil)
+    render :partial => '/authentication/fb_interstitial_message', :layout => 'fb_popup', :locals => {:text => text, :script => script}
+  end
   
 end

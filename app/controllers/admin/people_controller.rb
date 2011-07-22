@@ -37,6 +37,10 @@ class Admin::PeopleController < Admin::DashboardController
   #PUT admin/people/1
   def update
     @person = Person.find(params[:id])
+    if params[:person] && params[:person][:admin] && current_person.admin?
+      @person.admin = params[:person][:admin]
+    end
+    
     if @person.update_attributes(params[:person])
       flash[:notice] = "Successfully updated person record"
       redirect_to admin_people_path

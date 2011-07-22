@@ -1,5 +1,6 @@
 <p>
-  <%= rating_group.person.name %> rated a response from <%= rating_group.contribution.person.name %> as <strong><%= rating_group.ratings_titles.to_sentence %></strong>:
+  <%# TODO:  Refactor model call %>
+  <%= rating_group.person.name %> rated a response from <%= rating_group.contribution.person.name %> as <strong><%= Rating.find_by_rating_group_id(rating_group.id).rating_descriptor.title %></strong>:
 </p>
 
 <p>

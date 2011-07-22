@@ -9,10 +9,15 @@
         %a{:name=>"#post#{contribution.id}"}
         .edit-contribution
           - if current_person && current_person.admin?
-            = link_to "Moderate", moderate_contribution_path(contribution), :confirm => "Whoa there Tiger!  This will remove the contribution and all the nested responses.  Are you sure you want to do this?", :class => 'moderate', :method => 'delete'
-          - if contribution.editable_by?(current_person)
-            = link_to("Edit", {:controller => 'conversations', :action => 'edit_node_contribution', :div_id => "show-contribution-#{contribution.id}", :contribution_id => contribution.id}, :remote => true, :method => :get, :class => "edit-conversation-action", :id => "edit-#{contribution.id}", 'data-target' => "#show-contribution-#{contribution.id}")
-            = link_to("Delete", contribution_path(contribution), :remote => true, :method => :delete, :confirm => "Are you sure you want to delete this response? This cannot be undone.", :class => "delete-conversation-action", 'data-target' => "#show-contribution-#{contribution.id}")
+            = link_to "Moderate", moderate_conversation_contribution_path(contribution.conversation, contribution),  :class => 'moderate'
+            = link_to("Delete", conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :delete, :confirm => "Are you sure you want to delete this response? This cannot be undone.", :class => "delete-conversation-action", 'data-target' => "#show-contribution-#{contribution.id}")
+            - if contribution.descendants_count == 0 && contribution.rating_groups.empty?
+              = link_to("Edit", edit_conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :get, :class => "edit-conversation-action", :id => "edit-#{contribution.id}", 'data-target' => "#show-contribution-#{contribution.id}")
+            - else
+              = link_to("Edit", edit_conversation_contribution_path(contribution.conversation, contribution), :confirm => 'This contribution has been rated or someone has responded to it, please ensure you do not alter meaning or intent with your edits', :remote => true, :method => :get, :class => "edit-conversation-action", :id => "edit-#{contribution.id}", 'data-target' => "#show-contribution-#{contribution.id}")
+          - if current_person && contribution.owner_editable?(current_person)
+            = link_to("Edit", edit_conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :get, :class => "edit-conversation-action", :id => "edit-#{contribution.id}", 'data-target' => "#show-contribution-#{contribution.id}")
+            = link_to("Delete", conversation_contribution_path(contribution.conversation, contribution), :remote => true, :method => :delete, :confirm => "Are you sure you want to delete this response? This cannot be undone.", :class => "delete-conversation-action", 'data-target' => "#show-contribution-#{contribution.id}")
         = render(:partial => "conversations/contributions/#{contribution.type.underscore}", :locals => {:contribution => contribution})
         - if contribution.confirmed # if not confirmed, this is just a preview
           %div{:class => "convo-utility #{contribution.descendants_count > 0 ? 'response' : 'no-response'}"}
@@ -20,14 +25,14 @@
               %div.tos
                 Inappropriate?
                 = link_to("Alert us.",
-                            {:controller => "tos", :action => "tos_contribution", :contribution => contribution.id},
+                            new_tos_path(contribution),
                             :class => "text conversation-action top-level-contribution-action-button",
                             :id => "action-link-#{contribution.id}",
                             'data-colorbox' => true,
                             :title => "Alert Us of Terms of Service Violations")
-              = rating_buttons(contribution, @ratings)
+              = rating_buttons(contribution, @ratings || ratings)
               %span.respond
-                = link_to(respond_button_text(contribution), {:action => "new_node_contribution", :contribution_id => contribution.id, :id => contribution.conversation_id, :div_id => "contribution-#{contribution.id}"}, :class => "text conversation-action rating-button", :id => "action-link-#{contribution.id}", :title => "Leave a comment here", 'data-target' => "#action-div-#{contribution.id}")
+                = link_to(respond_button_text(contribution), {:controller => 'conversations', :action => "new_node_contribution", :contribution_id => contribution.id, :id => contribution.conversation_id, :div_id => "contribution-#{contribution.id}"}, :class => "text conversation-action rating-button", :id => "action-link-#{contribution.id}", :title => "Leave a comment here", 'data-target' => "#action-div-#{contribution.id}")
           %ol.conversations.divided.thread-list
             .comment-contribution-action(id="action-div-#{contribution.id}")
             .contribution-thread-div(id="thread-div-#{contribution.id}")

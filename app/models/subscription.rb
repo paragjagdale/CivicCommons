@@ -2,6 +2,9 @@ class Subscription < ActiveRecord::Base
   belongs_to :subscribable, :polymorphic => true
   belongs_to :person
 
+  scope :conversations, where(subscribable_type: 'Conversation')
+  scope :issues, where(subscribable_type: 'Issue')
+
   def self.subscribable?(subscription_type, subscription_id, subscriber)
     subscribable_model = subscription_type.camelize.constantize
     return subscribable_model.include? Subscribable

@@ -10,6 +10,12 @@ class ConversationsController < ApplicationController
     :create_from_radioshow,
   ]
 
+  def search
+    @search = Conversation.solr_search do
+      keywords(params[:q])
+    end
+  end
+
   # GET /conversations
   def index
     @active = Conversation.includes(:participants).most_active.limit(3)
@@ -40,13 +46,12 @@ class ConversationsController < ApplicationController
   def show
     @conversation = Conversation.includes(:issues).find(params[:id])
     @conversation.visit!((current_person.nil? ? nil : current_person.id))
-    @contributions = Contribution.for_conversation(@conversation)
+    @contributions = Contribution.includes(:rating_groups, :person).for_conversation(@conversation)
     @ratings = RatingGroup.ratings_for_conversation_by_contribution_with_count(@conversation, current_person)
     # Build rating totals into contribution
     # @contributions.each do |c|
     #   c.ratings       #=> {'some-descriptor' => {:total => 5, :person => true}, 'some-other' => 0, 'and-again' => 1}
     # end
-
     @top_level_contributions = @contributions.select{ |c| c.is_a?(TopLevelContribution) }
     # grab all direct contributions to conversation that aren't TLC
     @conversation_contributions = @contributions.select{ |c| !c.is_a?(TopLevelContribution) && c.parent_id.nil? }
@@ -83,24 +88,6 @@ class ConversationsController < ApplicationController
     end
   end
 
-  def edit_node_contribution
-    @contribution = Contribution.find(params[:contribution_id])
-    respond_to do |format|
-      format.js{ render(:partial => 'conversations/new_contribution_form', :locals => {:div_id => params[:div_id], :type => @contribution.type.underscore.to_sym}, :layout => false) }
-    end
-  end
-
-  def update_node_contribution
-    @contribution = Contribution.find(params[:contribution][:id])
-    respond_to do |format|
-      if @contribution.update_attributes_by_user(params[:contribution], current_person)
-        format.js{ render(:partial => "conversations/contributions/threaded_contribution_template", :locals => {:contribution => @contribution, :div_id => params[:div_id]}, :layout => false, :status => :ok) }
-      else
-        format.js   { render :json => @contribution.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
   def new_node_contribution
     @contribution = Contribution.find_or_new_unconfirmed(params, current_person)
     respond_to do |format|
@@ -126,7 +113,7 @@ class ConversationsController < ApplicationController
     elsif embedly and not embedly.ok?
       errors = ['There was a problem with our system. Please try again.']
     end
-    
+
     respond_to do |format|
       if errors.size == 0
         format.js   { render(:partial => "conversations/new_contribution_preview", :locals => {:div_id => params[:div_id], :layout => false}) }
@@ -248,15 +235,6 @@ class ConversationsController < ApplicationController
     respond_to do |format|
       format.js
     end
-  end
-
-  # DELETE /conversations/1
-  # NOT IMPLEMENTED YET, I.E. NOT ROUTEABLE
-  def destroy
-    @conversation = Conversation.find(params[:id])
-    @conversation.destroy
-
-    redirect_to(conversations_url)
   end
 
   private

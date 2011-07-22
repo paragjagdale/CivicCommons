@@ -1,19 +1,24 @@
 %h2 Issues
-%table.tablesorter{:summary => 'Listing of Issues in the Area'}
+%table.issues.tablesorter{:summary => 'Listing of Issues in the Area'}
   %thead
     %tr
-      %td Name
-      %td Summary
-      %td Managed?
-      %td &nbsp;
-      %td &nbsp;
+      %th
+      %th Name
+      %th Summary
+      %th Order
+      %th Managed?
+      %th &nbsp;
+      %th &nbsp;
   %tbody
     -@issues.each do |issue|
       %tr
+        %td.handle &#11021;
         %td= link_to issue.name, admin_issue_path(issue)
         %td= truncate(Sanitize.clean(issue.summary), :length => 200, :separator => ' ')
+        %td
+          %span.text= issue.position
         %td= issue.is_a?(ManagedIssue) ? link_to('Pages', admin_issue_pages_path(issue)) : nil
         %td= link_to 'Edit', edit_admin_issue_path(issue)
         %td= link_to 'Delete', admin_issue_path(issue), :confirm => "Are you sure?", :method => :delete
-
+=javascript_include_tag 'lib/admin/issue_sorting'
 =link_to "Add Issue", new_admin_issue_path

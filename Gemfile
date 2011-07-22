@@ -38,6 +38,8 @@ gem 'nokogiri'
 gem 'sanitize'
 gem 'highline'
 
+gem 'sunspot_rails', '~> 1.2.1'
+
 # for testing, but needed globally because it add rake tasks
 gem 'single_test'
 

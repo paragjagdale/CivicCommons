@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110603175812) do
+ActiveRecord::Schema.define(:version => 20110629135637) do
 
   create_table "articles", :force => true do |t|
     t.string   "title"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "official",                                :default => false
+    t.boolean  "official",                                      :default => false
     t.integer  "conversation_id"
     t.integer  "parent_id"
     t.integer  "issue_id"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.string   "type",                                    :default => "Contribution"
+    t.string   "type",                                          :default => "Contribution"
     t.integer  "total_visits"
     t.integer  "recent_visits"
     t.integer  "total_rating"
@@ -105,9 +105,9 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.string   "title"
     t.text     "description"
     t.string   "embed_target",            :limit => 1000
-    t.boolean  "confirmed",                               :default => true
+    t.boolean  "confirmed",                                     :default => true
     t.boolean  "notify"
-    t.text     "embedly_code"
+    t.text     "embedly_code",            :limit => 2147483647
     t.string   "embedly_type"
   end
 
@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.string   "zip_code"
-    t.integer  "total_visits",            :default => 0
-    t.integer  "recent_visits",           :default => 0
+    t.integer  "total_visits",             :default => 0
+    t.integer  "recent_visits",            :default => 0
     t.datetime "last_visit_date"
     t.integer  "total_rating"
     t.integer  "recent_rating"
@@ -134,10 +134,11 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.integer  "audio_clip_file_size"
     t.datetime "audio_clip_updated_at"
     t.integer  "owner"
-    t.boolean  "staff_pick",              :default => false, :null => false
+    t.boolean  "staff_pick",               :default => false, :null => false
     t.integer  "position"
-    t.boolean  "from_community",          :default => false
+    t.boolean  "from_community",           :default => false
     t.string   "cached_slug"
+    t.boolean  "exclude_from_most_recent", :default => false
   end
 
   add_index "conversations", ["cached_slug"], :name => "index_conversations_on_cached_slug", :unique => true
@@ -193,6 +194,7 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.string   "cached_slug"
     t.string   "type",                  :default => "Issue", :null => false
     t.integer  "managed_issue_page_id"
+    t.integer  "position"
   end
 
   add_index "issues", ["cached_slug"], :name => "index_issues_on_cached_slug", :unique => true
@@ -328,8 +330,8 @@ ActiveRecord::Schema.define(:version => 20110603175812) do
     t.datetime "updated_at"
     t.integer  "conversation_id"
     t.integer  "issue_id"
-    t.text     "activity_cache"
     t.integer  "person_id"
+    t.text     "activity_cache",  :limit => 2147483647
   end
 
   add_index "top_items", ["conversation_id"], :name => "conversations_index"

@@ -7,7 +7,7 @@
         <%  contributer = (@person == contribution.person ? 'you' : contribution.person.name)  %>
         <p><%= "In response to #{contribution.parent.person.name}, #{contributer}" %> added:
         <blockquote>
-          <%= contribution.content %>
+          <%= contribution.content.html_safe %>
         </blockquote>
         <%= link_to 'Check it out', "#{conversation_url(conversation.first)}#node-#{contribution.id}" %>
         </p>
@@ -15,7 +15,7 @@
         <%  contributer = (@person == contribution.person ? 'You' : contribution.person.name)  %>
         <p><%= "#{contributer}" %> added:
         <blockquote>
-          <%= contribution.content %>
+          <%= contribution.content.html_safe %>
         </blockquote>
         <%= link_to 'Check it out', "#{conversation_url(conversation.first)}#node-#{contribution.id}" %>
         </p>

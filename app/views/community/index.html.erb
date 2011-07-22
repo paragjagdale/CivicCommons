@@ -26,6 +26,8 @@
               <div class="text-container" id="label_<%= person.id %>">
                 <% name = ( person.last_name.blank? ? person.name : person.last_name + ", " + person.first_name ) %>
                 <h4><%= link_to name, user_path(person), title: person.name%></h4>
+                <p class="issue-conv"><%= pluralize(person.subscriptions.conversations.size, "Conversation") %></p>
+                <p class="issue-res"><%= pluralize(person.subscriptions.issues.size, "Issue") %></p>
               </div>
             </div>
           <% end %>

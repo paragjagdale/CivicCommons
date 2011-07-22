@@ -1,16 +1,16 @@
 class AttachedFile < Contribution
-  
+
   # supported files:
   # xls, ppt, pdf, doc, txt, xlsx, docx, pptx, rtf, jpg, png
-  
+
   has_attached_file :attachment,
     :storage => :s3,
     :s3_credentials => S3Config.credential_file,
     :path => IMAGE_ATTACHMENT_PATH,
     :styles => {:thumb => "75x75>", :medium => "300x300>", :large => "800x800>"}
-      
+
   validates_attachment_presence :attachment
-  
+
   before_attachment_post_process :is_image?
 
   # Return true if attachment is an image
@@ -20,10 +20,5 @@ class AttachedFile < Contribution
   def is_image?
     !(attachment_content_type =~ /^image.*/).nil?
   end
-  
-  def editable_by?(user)
-    return false if user.nil?
-    (user.admin? || self.owner == user.id) && descendants_count == 0
-  end
-  
+
 end

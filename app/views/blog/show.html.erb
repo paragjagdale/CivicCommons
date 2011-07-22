@@ -18,11 +18,14 @@
             <div class="body"><%= raw @blog_post.body %></div>
             <p>&nbsp;</p>
             <h4>Posted by <%= link_to @blog_post.author.name, user_path(@blog_post.author) %> on <%= format_publish_date(@blog_post) %></h4>
-            <% if @blog_post.embed_code %>
+            <% unless @blog_post.embed_code.blank? %>
               <p>&nbsp;</p>
               <p style="text-align: center"><%= raw @blog_post.embed_code %></p>
-              <p>&nbsp;</p>
             <% end %>
+            <p style="font-style:italic; margin-top:20px;">
+              Copyright &copy; <%= @blog_post.published.strftime('%Y') %> <%= @blog_post.author.name %>; available under the
+              <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike License</a>.
+	        </p>
           </div>
         </div>
 

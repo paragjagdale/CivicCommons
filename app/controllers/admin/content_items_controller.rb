@@ -4,10 +4,10 @@ class Admin::ContentItemsController < Admin::DashboardController
   def index
     if params[:type]
       @filter = params[:type].classify
-      @content_items = ContentItem.where(content_type: @filter).order('content_type ASC, published DESC')
+      @content_items = ContentItem.where(content_type: @filter).order('content_type ASC, published DESC, created_at DESC')
     else
       @filter = 'All'
-      @content_items = ContentItem.all(order: 'content_type ASC, published DESC')
+      @content_items = ContentItem.all(order: 'content_type ASC, published DESC, created_at DESC')
     end
   end
 
