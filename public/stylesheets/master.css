@@ -1066,6 +1066,23 @@ color: #fff;
 }
 .issue p {padding-left: 80px;}
 
+/*- Contribution Threads ----------*/
+
+.contribution-container .contribution-toggle {display: none;}
+.contribution-thread-div .contribution-container .content {padding-right: 40px;}
+.contribution-thread-div .contribution-container .contribution-toggle {
+background: url(../images/accordion-icon.png) no-repeat 0 0;
+display: block;
+height: 27px;
+position: absolute;
+right: 0;
+text-indent: -9999px;
+top: 10px;
+width: 25px;
+}
+.contribution-thread-div .contribution-container .contribution-toggle:hover {background-position:  0 -27px;}
+.contribution-thread-div .contribution-container .contribution-toggle:active, .contribution-thread-div .contribution-container .contribution-toggle.active {background-position:  0 -54px;}
+
 /*- Rating and Response Buttons ----------*/
 
 a.rating-button,
