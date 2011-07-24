@@ -88,6 +88,7 @@ line-height: 1em;
 margin-bottom: 18px;
 text-shadow: 0 1px 1px rgba(255,255,255,.85);
 }
+h1 span {color: #777;}
 .wf-active h1 {font-size: 2.5em;}
 h2 {
 color: #555
@@ -684,7 +685,7 @@ width: 220px;
 border-bottom: 1px solid #c3c6cd;
 line-height: 1.6em;
 margin: 0 auto;
-padding: 0 0 22px;
+padding: 0 0 15px;
 text-align: left;
 width: 940px;
 }
@@ -809,22 +810,33 @@ padding-left: 26px;
 /*- Search Form Styles ----------*/
 
 div#search {
-background: url(../images/search-icon.png) no-repeat 0 0;
-float: right;
-margin-top: 5px;
-padding-left: 24px;
+border: 1px solid #b4b4b5;
+float: left;
+margin-left: 66px;
+margin-top: 10px;
+padding-left: 5px;
 width: 266px;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f5f5f5), color-stop(0.5, #fff));
+background: -moz-linear-gradient(center top , #f5f5f5, #fff);
+filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorStr=#f5f5f5, endColorStr=#fff);
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+-o-border-radius: 4px;
+border-radius: 4px;
+-webkit-box-shadow: 0 0 1px rgba(255,255,255,1);
+-moz-box-shadow: 0 0 1px rgba(255,255,255,1);
+-o-box-shadow: 0 0 1px rgba(255,255,255,1);
+box-shadow: 0 0 1px rgba(255,255,255,1);
 }
 div#search form {
-background-color: #fff;
-border: 1px solid #333;
-border-left: none;
-border-right: none;
+background: url(../images/search-icon.png) no-repeat 3px 5px;
 height: 24px;
+padding-left: 24px;
 position: relative;
 width: 242px;
 }
 div#search form input.textbox {
+background: transparent;
 border: none;
 margin: 6px 0 0;
 padding: 0;
@@ -832,7 +844,7 @@ width: 242px;
 }
 div#search form input.textbox:focus {outline: 0 none;}
 div#search input.submit {
-background: transparent url(../images/search-submit.png) no-repeat 0 0;
+background: none;
 border: none;
 color: transparent; /* Hack to make the value of the submit input invisible to IE */
 display: block;
@@ -1312,6 +1324,23 @@ padding-left: 58px;
 width: 12px;
 height: 16px;
 }
+
+
+/*- SEARCH PAGE STYLES
+----------------------------------------------------------------------*/
+
+.results h4 {
+font-size: 1.166em;
+margin-bottom: .2em;
+}
+.results h1 {margin-bottom: 25px;}
+.result {
+margin-bottom: 10px;
+padding: 2px 0 2px 31px;
+}
+.community-result {background: url("/images/people-i.png") no-repeat scroll 0 2px transparent;}
+.issue-result {background: url("/images/issues-i.png") no-repeat scroll 4px 2px transparent;}
+.conversation-result {background: url("/images/conv-i.png") no-repeat scroll 2px 2px transparent;}
 
 
 /*- MISCELLANEOUS ----------*/

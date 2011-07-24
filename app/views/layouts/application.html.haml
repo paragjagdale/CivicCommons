@@ -85,7 +85,7 @@
           .important
         #search
           = form_tag(search_path, :method => "get") do 
-            = text_field_tag(:q, 'Search', :class => 'textbox')
+            = text_field_tag(:q, '', :class => 'textbox', :placeholder => 'Search the Civic Commons')
             = submit_tag("Search", :class => 'submit', :id => 'Search', :name => nil)
     = yield :main_body
     #footer.footer
