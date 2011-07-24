@@ -1381,16 +1381,16 @@ height: 16px;
 
 .results h4 {
 font-size: 1.166em;
-margin-bottom: .2em;
+margin-bottom: .4em;
 }
 .results h1 {margin-bottom: 25px;}
 .result {
 margin-bottom: 10px;
-padding: 2px 0 2px 31px;
+padding: 2px 0 2px 35px;
 }
-.community-result {background: url("/images/people-i.png") no-repeat scroll 0 2px transparent;}
-.issue-result {background: url("/images/issues-i.png") no-repeat scroll 4px 2px transparent;}
-.conversation-result {background: url("/images/conv-i.png") no-repeat scroll 2px 2px transparent;}
+.community-result {background: url("/images/people-r.png") no-repeat scroll 0 2px transparent;}
+.issue-result {background: url("/images/issues-r.png") no-repeat scroll 4px 2px transparent;}
+.conversation-result {background: url("/images/conv-r.png") no-repeat scroll 2px 2px transparent;}
 
 
 /*- MISCELLANEOUS ----------*/
