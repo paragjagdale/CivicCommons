@@ -1,8 +1,11 @@
 <div class="result community-result">
-  <% 
-    person = hit.result
-    name = ( person.last_name.blank? ? person.name : person.last_name + ", " + person.first_name )
-  %>
-  <h4><%= link_to name, user_path(person), title: person.name %></h4>
-  <p><%= best_hit_description(hit, :bio) %></p>
+  <div class="offset-2">
+	  <% 
+	    person = hit.result
+	    name = ( person.last_name.blank? ? person.name : person.last_name + ", " + person.first_name )
+	  %>
+	  <%= user_profile(person) %>
+	  <h4><%= link_to name, user_path(person), title: person.name %></h4>
+	  <p><%= best_hit_description(hit, :bio) %></p>
+  </div>
 </div>

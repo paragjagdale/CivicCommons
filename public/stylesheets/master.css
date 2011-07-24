@@ -1391,6 +1391,9 @@ padding: 2px 0 2px 35px;
 .community-result {background: url("/images/people-r.png") no-repeat scroll 0 2px transparent;}
 .issue-result {background: url("/images/issues-r.png") no-repeat scroll 4px 2px transparent;}
 .conversation-result {background: url("/images/conv-r.png") no-repeat scroll 2px 2px transparent;}
+.results .offset-2 {min-height: 50px;}
+.results a img.callout {border: 1px solid #bbb;}
+.results a:hover img.callout {border-color: #999;}
 
 
 /*- MISCELLANEOUS ----------*/
