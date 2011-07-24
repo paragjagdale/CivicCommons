@@ -1,4 +1,4 @@
-<div class="result conversation">
+<div class="result conversation-result">
   <h4><%= link_to hit.result.title, conversation_path(hit.result) %></h4>
-  <%= best_hit_description(hit, :summary) %>
+  <p><%= best_hit_description(hit, :summary) %></p>
 </div>
