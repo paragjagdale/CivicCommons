@@ -30,7 +30,7 @@ class Admin::ConversationsController < Admin::DashboardController
     end
   rescue ActiveRecord::RecordInvalid => e
     respond_to do |format|
-      format.html { render new_admin_conversation_path }
+      format.html { render :new }
       format.xml  { render :xml => @conversation.errors + @presenter.errors, :status => :unprocessable_entity }
     end
   end
@@ -49,7 +49,8 @@ class Admin::ConversationsController < Admin::DashboardController
       flash[:notice] = "Successfully updated conversation"
       redirect_to admin_conversations_path
     else
-      render edit_admin_conversation_path(@conversation)
+      @presenter = IngestPresenter.new(@conversation)
+      render :edit
     end
   end
 

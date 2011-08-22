@@ -3,7 +3,7 @@ class Admin::ManagedIssuePagesController < Admin::DashboardController
   # GET /admin/issues/1/pages
   def all
     @managed_issue_pages = ManagedIssuePage.order('issue_id ASC, name ASC')
-    render 'index'
+    render :index
   end
 
   # GET /admin/issues/1/pages
@@ -40,7 +40,7 @@ class Admin::ManagedIssuePagesController < Admin::DashboardController
     if @managed_issue_page.save
       redirect_to(admin_issue_page_path(@issue, @managed_issue_page), :notice => 'Content template was successfully created.')
     else
-      render "new"
+      render :new
     end
   end
 
@@ -54,7 +54,7 @@ class Admin::ManagedIssuePagesController < Admin::DashboardController
     if @managed_issue_page.save
       redirect_to(admin_issue_page_path(@issue, @managed_issue_page), :notice => 'Content template was successfully updated.')
     else
-      render "edit"
+      render :edit
     end
   end
 

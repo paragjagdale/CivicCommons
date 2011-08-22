@@ -28,7 +28,7 @@ class Admin::ContentTemplatesController < Admin::DashboardController
     if @content_template.save
       redirect_to(admin_content_template_path(@content_template), :notice => 'Content template was successfully created.')
     else
-      render "new"
+      render :new
     end
   end
 
@@ -41,7 +41,7 @@ class Admin::ContentTemplatesController < Admin::DashboardController
     if @content_template.save
       redirect_to(admin_content_template_path(@content_template), :notice => 'Content template was successfully updated.')
     else
-      render "edit"
+      render :edit
     end
   end
 

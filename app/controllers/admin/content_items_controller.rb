@@ -77,7 +77,7 @@ class Admin::ContentItemsController < Admin::DashboardController
       flash[:notice] = "Successfully edited your #{@content_item.content_type}"
       redirect_to admin_content_item_path(@content_item)
     else
-      render "edit"
+      render :edit
     end
   end
 

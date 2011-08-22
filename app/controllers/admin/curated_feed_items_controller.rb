@@ -31,7 +31,7 @@ class Admin::CuratedFeedItemsController < Admin::DashboardController
     if @item.save
       redirect_to(admin_curated_feed_path(@feed), :notice => 'Feed item was successfully updated.')
     else
-      render "edit"
+      render :edit
     end
   end
 

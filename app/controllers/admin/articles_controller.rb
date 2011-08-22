@@ -44,7 +44,7 @@ class Admin::ArticlesController < Admin::DashboardController
       if @article.save
         format.html { redirect_to(admin_article_path(@article), :notice => 'Article was successfully created.') }
       else
-        format.html { render :action => "new" }
+        format.html { render :new }
       end
     end
   end
@@ -58,7 +58,7 @@ class Admin::ArticlesController < Admin::DashboardController
       if @article.update_attributes(params[:article])
         format.html { redirect_to(admin_article_path(@article), :notice => 'Article was successfully updated.') }
       else
-        format.html { render :action => "edit" }
+        format.html { render :edit }
       end
     end
   end

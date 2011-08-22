@@ -9,7 +9,7 @@ class Admin::PeopleController < Admin::DashboardController
   #GET admin/proxies
   def proxies
     @people = Person.proxy_accounts
-    render :action => 'index'
+    render :index
   end
 
   #GET admin/people/new
@@ -25,7 +25,7 @@ class Admin::PeopleController < Admin::DashboardController
       flash[:notice] = "Thank you for creating the proxy account"
       redirect_to admin_people_path
     else
-      render new_admin_person_path
+      render :new
     end
   end
 
@@ -45,7 +45,7 @@ class Admin::PeopleController < Admin::DashboardController
       flash[:notice] = "Successfully updated person record"
       redirect_to admin_people_path
     else
-      render edit_admin_person_path(@person)
+      render :edit
     end
   end
 

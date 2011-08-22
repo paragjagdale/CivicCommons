@@ -27,7 +27,7 @@ class Admin::CuratedFeedsController < Admin::DashboardController
     if @feed.save
       redirect_to(admin_curated_feed_path(@feed), :notice => 'Feed successfully created.')
     else
-      render :action => "new"
+      render :new
     end
   end
 
@@ -38,7 +38,7 @@ class Admin::CuratedFeedsController < Admin::DashboardController
     if @feed.update_attributes(params[:curated_feed])
       redirect_to(admin_curated_feed_path(@feed), :notice => 'Curated feed was successfully updated.')
     else
-      render :action => "edit"
+      render :edit
     end
   end
 
