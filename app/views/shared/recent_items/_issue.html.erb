@@ -2,4 +2,4 @@
   Issue created:
   <%= link_to( issue.name, issue_path( issue.id ) ) %>
 </p>
-<%= simple_format( truncate( Sanitize.clean( issue.summary ), :length => 100, :separator => ' ' ) ) %>
+<%= simple_format( truncate( Sanitize.clean( issue.summary, :remove_contents => ['script'] ).strip, :length => 100, :separator => ' ' ) ) %>

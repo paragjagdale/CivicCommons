@@ -9,7 +9,7 @@
 </p>
 
 <p>
-  <%= link_to( "\"#{truncate( Sanitize.clean( contribution.content ), :length => 100, :separator => ' ' )}\"", conversation_node_path(contribution) ) %>
+  <%= link_to( "\"#{truncate( Sanitize.clean( contribution.content, :remove_contents => ['script'] ).strip, :length => 100, :separator => ' ' )}\"", conversation_node_path(contribution) ) %>
 </p>
 
 <% unless controller.controller_name == 'conversations' && controller.action_name == 'show' %>

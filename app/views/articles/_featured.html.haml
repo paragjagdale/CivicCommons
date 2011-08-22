@@ -10,7 +10,7 @@
       .feat-content
         %h1= link_to @main_article.title, @main_article.link
         %p= "By: #{@main_article.author}"
-        = simple_format(truncate(Sanitize.clean(@main_article.description), :length => 200, :separator => ' '))
+        = simple_format(truncate(Sanitize.clean(@main_article.description, :remove_contents => ['script']).strip, :length => 200, :separator => ' '))
         %p
           =link_to 'Read more', @main_article.link, :class => "read-more"
 

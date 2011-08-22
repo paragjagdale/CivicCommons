@@ -6,7 +6,7 @@
           <a href="<%= conversation_path(conversation)%>">
             <img class="main-img" src="<%= conversation.image.url(:panel) %>" alt="<%= conversation.title %>" width="180" height="120" />
             <h4><%= truncate(conversation.title, {:length => 45, :separator => ' '}) %></h4>
-            <%= simple_format(truncate(Sanitize.clean(conversation.summary), {:length => 125, :separator => ' '})) %>
+            <%= simple_format(truncate(Sanitize.clean(conversation.summary, :remove_contents => ['script']).strip, {:length => 125, :separator => ' '})) %>
           </a>
           <div class="photobank">
             <% conversation.participants[0...4].each do |participant| %>

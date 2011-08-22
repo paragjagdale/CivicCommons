@@ -14,7 +14,7 @@
       %tr
         %td.handle &#11021;
         %td= link_to issue.name, admin_issue_path(issue)
-        %td= truncate(Sanitize.clean(issue.summary), :length => 200, :separator => ' ')
+        %td= truncate(Sanitize.clean(issue.summary, :remove_contents => ['script']).strip, :length => 200, :separator => ' ')
         %td
           %span.text= issue.position
         %td= issue.is_a?(ManagedIssue) ? link_to('Pages', admin_issue_pages_path(issue)) : nil

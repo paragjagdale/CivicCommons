@@ -32,7 +32,7 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
           xml.title "#{@user.name} responded to the conversation '#{recent_item.parent_title}'"
           xml.link conversation_node_url(recent_item)
           xml.guid conversation_node_url(recent_item)
-          xml.description Sanitize.clean(recent_item.content)
+          xml.description Sanitize.clean(recent_item.content, :remove_contents => ['script']).strip
         else
           xml.title "#{@user} participated in a conversation at The Civic Commons"
           xml.link user_url(@user)
