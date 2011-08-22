@@ -4,8 +4,7 @@ class Person < ActiveRecord::Base
   include GeometryForStyle
   include Marketable
 
-# Commented search for production build since it is not ready
-  searchable :noindex => true do
+  searchable :ignore_attribute_changes_of => [ :failed_attempts ] do
     text :first_name, :default_boost => 2
     text :last_name, :default_boost => 2
     text :bio, :stored => true
