@@ -5,10 +5,10 @@ class Conversation < ActiveRecord::Base
   include GeometryForStyle
 
 # Commented search for production build since it is not ready
-#  searchable do
-#    text :title, :default_boost => 2
-#    text :summary, :stored => true
-#  end
+  searchable do
+    text :title, :default_boost => 2
+    text :summary, :stored => true
+  end
 
   has_many :contributions
   has_many :confirmed_contributions, :class_name => 'Contribution',
