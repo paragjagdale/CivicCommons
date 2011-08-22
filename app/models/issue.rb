@@ -5,10 +5,10 @@ class Issue < ActiveRecord::Base
   include GeometryForStyle
 
 # Commented search for production build since it is not ready
-#  searchable do
-#    text :name, :default_boost => 2
-#    text :summary, :stored => true
-#  end
+  searchable do
+    text :name, :default_boost => 2
+    text :summary, :stored => true
+  end
 
   ALL_TYPES = ['Issue', 'ManagedIssue']
 
