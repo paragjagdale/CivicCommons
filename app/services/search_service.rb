@@ -13,7 +13,7 @@ class SearchService
   def fetch_results(query = nil, *models)
     results = @search.search(models) do
       keywords(query) do
-        highlight :summary, :bio
+        highlight :summary, :bio, :description
       end
     end
 

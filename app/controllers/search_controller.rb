@@ -6,7 +6,6 @@ class SearchController < ApplicationController
     @community = Array.new
 
     search_service = SearchService.new
-    @results = search_service.fetch_results(params[:q], Conversation, Issue, Person).paginate(page: params[:page], per_page: 10)
-
+    @results = search_service.fetch_results(params[:q], Conversation, Issue, Person, Contribution).paginate(page: params[:page], per_page: 10)
   end
 end

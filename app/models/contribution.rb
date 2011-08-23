@@ -3,6 +3,12 @@ require 'parent_validator'
 class Contribution < ActiveRecord::Base
   include Visitable
 
+  searchable :ignore_attribute_changes_of => [ :total_visits, :recent_visits, :last_visit_date, :updated_at, :recent_rating ] do
+    text :title, :default_boost => 1
+    text :description, :stored => true
+    text :content, :stored => true
+  end
+
   attr_accessor :top_level
 
   # nested contributions are destroyed via callbacks
