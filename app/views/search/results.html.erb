@@ -16,11 +16,13 @@
               <% when Person %>
                 <%= render :partial => 'community', :locals => { :hit => hit } %>
               <% end
-              end
-            else %>
+              end %>
+            <div class="pagination">
+              <%= will_paginate @results, :inner_window => 3, previous_label: 'Previous', next_label: 'Next' %>
+              </div>
+            <% else %>
             <p>Sorry. Your search did not return any results.</p>
-          <%end
-        %>
+          <% end %>
       </div>
     </div>
 
