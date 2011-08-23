@@ -1,7 +1,9 @@
-<% if(hit.result.conversation_id) %>
-  <div class="result contribution-result">
-    <% title =  hit.result.title || "This contribution has no title" %>
-  <h4><%= link_to title , conversation_path(hit.result.conversation_id) %></h4>
+<div class="result contribution-result">
+  <% title =  hit.result.title || "This contribution has no title" %>
+  <% if(hit.result.conversation_id) %>
+      <h4><%= link_to title , conversation_path(hit.result.conversation_id) %></h4>
+  <% elsif(hit.result.issue_id) %>
+      <h4><%= link_to title , issue_path(hit.result.issue_id) %></h4>
+  <% end %>
   <p><%= best_hit_description(hit, :content) %></p>
 </div>
-<% end %>
