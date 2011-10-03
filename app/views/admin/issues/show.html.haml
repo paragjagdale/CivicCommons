@@ -26,6 +26,12 @@
   %b Zip Code:
   =@issue.zip_code
 
+= if @issue.sponsor_name
+  %p
+    %b Sponsor Name:
+    =@issue.sponsor_name
+
+
 =link_to "Edit", edit_admin_issue_path(@issue)
 -if @issue.is_a?(ManagedIssue)
   |
