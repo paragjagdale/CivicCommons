@@ -75,6 +75,7 @@ module Admin
           assigns[:issue].name.should eq params[:name]
           assigns[:issue].cached_slug.should eq params[:cached_slug]
           assigns[:issue].summary.should eq params[:summary]
+          assigns[:issue].sponsor_name.should eq params[:sponsor_name]
         end
 
         it "redirects to the issues index" do
@@ -160,6 +161,7 @@ module Admin
           assigns[:issue].name.should eq new_name
           assigns[:issue].summary.should eq params['summary']
           assigns[:issue].cached_slug.should eq new_slug
+          assigns[:issue].sponsor_name.should eq params['sponsor_name']
         end
 
         it "redirects to the issues index" do
@@ -180,6 +182,7 @@ module Admin
           assigns[:issue].name.should eq params['name']
           assigns[:issue].summary.should eq params['summary']
           assigns[:issue].cached_slug.should eq params['cached_slug']
+          assigns[:issue].sponsor_name.should eq params['sponsor_name']
         end
 
         it "re-renders the 'edit' issue" do
