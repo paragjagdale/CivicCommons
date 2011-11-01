@@ -14,7 +14,9 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
     xml.language "en-us"
     xml.pubDate Time.now.rfc822
     xml.lastBuildDate Time.now.rfc822
-    for recent_item in ActivityPresenter.new(@recent_items)
+
+    recent_items_collection = ActivityPresenter.new(@recent_items)
+    recent_items_collection.each_with_type do |recent_item, item_type|
       xml.item do
         if recent_item.is_a?(Conversation)
           xml.title recent_item.title
@@ -36,7 +38,7 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
           xml.title "#{@user.name} participated in a conversation at The Civic Commons"
           xml.link user_url(@user)
           xml.guid user_url(@user)
-          xml.description "#{@user} participated in a conversation at The Civic Commons"
+          xml.description "#{@user.name} participated in a conversation at The Civic Commons"
         end
         xml.pubDate recent_item.created_at.to_time.to_formatted_s(:rfc822)
       end
