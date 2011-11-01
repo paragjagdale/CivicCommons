@@ -15,7 +15,6 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
     xml.pubDate Time.now.rfc822
     xml.lastBuildDate Time.now.rfc822
     for recent_item in ActivityPresenter.new(@recent_items)
-      puts recent_item.inspect
       xml.item do
         if recent_item.is_a?(Conversation)
           xml.title recent_item.title
@@ -34,7 +33,7 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
           xml.guid conversation_node_url(recent_item)
           xml.description Sanitize.clean(recent_item.content, :remove_contents => ['script']).strip
         else
-          xml.title "#{@user} participated in a conversation at The Civic Commons"
+          xml.title "#{@user.name} participated in a conversation at The Civic Commons"
           xml.link user_url(@user)
           xml.guid user_url(@user)
           xml.description "#{@user} participated in a conversation at The Civic Commons"
