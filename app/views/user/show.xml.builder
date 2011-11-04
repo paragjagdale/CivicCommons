@@ -32,10 +32,13 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
           # xml.guid conversation_url(recent_item)
           # xml.description recent_item.summary
         when item_type == "RatingGroup" then
+
+          contribution = recent_item.contribution
+          contribution.conversation = recent_item.conversation
+
           xml.title "#{recent_item.person.name} rated a response as #{Rating.find_by_rating_group_id(recent_item.id).rating_descriptor.title} on the conversation '#{recent_item.conversation.title}'"
-          # TODO: might be a bug here -- the rating id shows up instead of the contribution node in the urls below
-          xml.link path_to_url conversation_node_path(recent_item)
-          xml.guid path_to_url conversation_node_path(recent_item)
+          xml.link path_to_url conversation_node_path(contribution)
+          xml.guid path_to_url conversation_node_path(contribution)
 
         when item_type == "Contribution" then
           recent_item = ContributionPresenter.new(recent_item)
