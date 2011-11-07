@@ -38,3 +38,4 @@
 #### Post Deployment Instructions
   * There have been changes to the content that is indexed and Solr will need to be reindexed:
     * bundle exec rake sunspot:reindex
+    * bundle exec rake activity:update_activity_cache
