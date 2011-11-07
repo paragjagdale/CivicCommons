@@ -27,8 +27,6 @@ xml.rss :version => "2.0", 'xmlns:atom' => "http://www.w3.org/2005/Atom" do
       xml.item do
         case
         when item_type == "Conversation" then
-          contribution = Contribution.new
-
           xml.title recent_item.title
           xml.link conversation_url(recent_item.id)
           xml.guid conversation_url(recent_item.id)
